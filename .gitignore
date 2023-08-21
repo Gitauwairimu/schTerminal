@@ -1,0 +1,12 @@
+my-project-env/
+*.txt
+# Ignore all .txt files.
+
+__pycache__/
+# Ignore the __pycache__ directory.
+
+log/*
+# Ignore all files in the log directory.
+
+!log/important.log
+# But include important.log.
