@@ -84,7 +84,7 @@ def create_user(role):
 
   # Commit the changes to the database.
   db.commit()
-  print('User created')
+  print(f'User created as {role}')
 
 def get_all_data():
   """Gets all data from the database and prints it in the terminal."""
@@ -101,7 +101,213 @@ def get_all_data():
     print(row)
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
+#   # Get the role of the user.
+#   role = get_role()
+
+#   # # Create a new user with the given role.
+#   create_user(role)
+
+#   # # Get all data from the database and print it in the terminal.
+#   get_all_data()
+
+def admin_menu():
+  """Displays the admin menu and allows the user to select an option."""
+
+  print("1. Create User")
+  print("2. Edit User")
+  print("3. Delete User")
+  print("4. Back")
+
+  print('............................................')
+  print('                                            ')
+  print('                                            ')
+
+  choice = input("Enter your choice: ")
+
+  if choice == "1":
+    user()
+  elif choice == "2":
+    edit_user()
+  elif choice == "3":
+    delete_user()
+  elif choice == "4":
+    return
+  else:
+    print("Invalid choice")
+    admin_menu()
+
+
+def edit_student():
+  """Edits an existing student in the database."""
+
+  # Get the database connection.
+  # db = connect_to_database()
+
+  # # Create a cursor object.
+  # cursor = db.cursor()
+  student_adm = input("Enter student admission number: ")
+  # Get the administrator's data from the database.
+  sql = f"SELECT * FROM students WHERE student_adm = {student_adm}"
+  cursor.execute(sql)
+  admin_data = cursor.fetchone()
+
+  # Update the administrator's data.
+  new_first_name = input("Enter the new name: ")
+  new_surname = input("Enter the new surname: ")
+  new_email = input("Enter the new email address: ")
+  new_password = input("Enter the new password: ")
+
+  sql = f"UPDATE students SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE student_adm = {student_adm}"
+  cursor.execute(sql)
+
+  # Commit the changes to the database.
+  db.commit()
+
+  # Print a message to confirm that the administrator was edited.
+  print("Student edited")
+
+
+def edit_teacher():
+  """Edits an existing teacher in the database."""
+
+  # Get the database connection.
+  # db = connect_to_database()
+
+  # # Create a cursor object.
+  # cursor = db.cursor()
+  identity_number = int(input("Enter teacher's national identity number to edit: "))
+  # Get the teacher's data from the database.
+  sql = f"SELECT * FROM teachers WHERE identity_number = {identity_number}"
+  # if identity_number:
+  #   sql = f"SELECT * FROM teachers WHERE CAST(identity_number AS int) = {identity_number}"
+  # else:
+  #   print("identity number field cannot be empty")
+
+  cursor.execute(sql)
+  admin_data = cursor.fetchone()
+
+  # Update the administrator's data.
+  new_first_name = input("Enter the new name: ")
+  new_surname = input("Enter the new surname: ")
+  new_email = input("Enter the new email address: ")
+  new_password = input("Enter the new password: ")
+
+  sql = f"UPDATE teachers SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE CAST(identity_number AS int) = {identity_number}"
+  cursor.execute(sql)
+
+  # Commit the changes to the database.
+  db.commit()
+
+  # Print a message to confirm that the administrator was edited.
+  print("Teacher details updated")
+
+
+def edit_admin():
+  """Edits an existing administrator in the database."""
+
+  # Get the database connection.
+  # db = connect_to_database()
+
+  # # Create a cursor object.
+  # cursor = db.cursor()
+  admin_no = input("Enter admin number of admin to edit: ")
+  # Get the administrator's data from the database.
+  sql = f"SELECT * FROM administrators WHERE admin_no = {admin_no}"
+  cursor.execute(sql)
+  admin_data = cursor.fetchone()
+
+  # Update the administrator's data.
+  new_first_name = input("Enter the new name: ")
+  new_surname = input("Enter the new surname: ")
+  new_email = input("Enter the new email address: ")
+  new_password = input("Enter the new password: ")
+
+  sql = f"UPDATE administrators SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE admin_no = {admin_no}"
+  cursor.execute(sql)
+
+  # Commit the changes to the database.
+  db.commit()
+
+  # Print a message to confirm that the administrator was edited.
+  print("Administrator edited")
+
+
+def edit_user():
+  """Edits an existing user in the database."""
+
+  print('Choose Category of User to Edit')
+  # user_id = input("Enter ID of user to edit: ")
+
+  print('                                            ')
+  print('                                            ')
+
+  print("1. Administrator")
+  print("2. Teacher")
+  print("3. Support Staff")
+  print("4. Student")
+
+  print('............................................')
+  print('                                            ')
+  print('                                            ')
+
+  user_to_edit = input("Enter your choice (1-4): ")
+
+  try:
+    user_to_edit = int(user_to_edit)
+  except ValueError:
+    print("Invalid user category. Please enter a number between 1 and 4.")
+    return None
+
+  if user_to_edit == 1:
+    edit_admin()
+  elif user_to_edit == 2:
+    edit_teacher()
+  elif user_to_edit == 3:
+    edit_support_staff()
+  elif user_to_edit == 4:
+    edit_student()
+  else:
+    print('You must choose from existing categories')
+
+  # Get the database connection.
+  # db = connect_to_database()
+
+  # Create a cursor object.
+  # cursor = db.cursor()
+
+  # Get the user's data from the database.
+  # sql = f"SELECT * FROM user WHERE id = {user_id}"
+  # cursor.execute(sql)
+  # user_data = cursor.fetchone()
+
+  # Update the user's data.
+  # new_name = input("Enter the new name: ")
+  # new_surname = input("Enter the new surname: ")
+  # new_email = input("Enter the new email address: ")
+  # new_password = input("Enter the new password: ")
+
+  # sql = f"UPDATE users SET name = '{new_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE id = {user_id}"
+  # cursor.execute(sql)
+
+  # Commit the changes to the database.
+  # db.commit()
+
+  # Print a message to confirm that the user was edited.
+  print("User edited")
+
+
+# if __name__ == "__main__":
+  # Get the user ID of the user to edit.
+  # user_id = input("Enter the user ID: ")
+  # user_id = input("Enter ID of user to edit: ")
+
+  # Edit the user.
+  # edit_user(user_id)
+
+
+
+def user():
   # Get the role of the user.
   role = get_role()
 
@@ -110,3 +316,8 @@ if __name__ == "__main__":
 
   # Get all data from the database and print it in the terminal.
   get_all_data()
+
+if __name__ == "__main__":
+#   # Call the main function.
+  user()
+# edit_user(user_id)

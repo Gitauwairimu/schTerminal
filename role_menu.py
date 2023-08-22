@@ -1,4 +1,5 @@
-import student
+import student, admin
+
 
 def role_menu():
   """Displays a menu of roles and asks the user to choose one."""
@@ -10,8 +11,15 @@ def role_menu():
   print("3. Guest")
   print("4. Student")
 
+  # Create space for delianation
+  print('............................................')
+  print('                                            ')
+  print('                                            ')
+  
   # Get the user's choice.
   choice = input("Enter your choice (1-4): ")
+
+  print('                                            ')
 
   # Validate the user's choice.
   try:
@@ -46,6 +54,10 @@ def role_menu():
   # If the user is a student, call the student_menu() function.
   if choice == 4:
     student.student_menu()
+  elif choice == 1:
+    admin.admin_menu()
+
+
 
 
 # This is the main function.
