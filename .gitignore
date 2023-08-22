@@ -10,3 +10,6 @@ log/*
 
 !log/important.log
 # But include important.log.
+
+.gitignore
+.env
