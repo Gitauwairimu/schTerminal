@@ -35,7 +35,9 @@ def get_role():
 
   while role not in roles.keys():
     print("Invalid role. Please choose a valid role.")
-    role = input("Enter Role: ")
+    # role = input("Enter Role: ")
+#   print(roles.keys())
+#   role = role.keys
 
   return role
 
@@ -44,6 +46,7 @@ def create_user(role):
   # Get the name, email, password, and role from the user.
   role = get_role()
   cursor = db.cursor()
+  print(role)
 
 
   # Get the user's name.
@@ -52,14 +55,32 @@ def create_user(role):
   email = input("Enter the user's email address: ")
   password = input("Enter the user's password: ")
 
-  # Create a SQL statement to insert the student into the database.
-  sql = """
-  INSERT INTO students (student_adm, first_name, surname, email, password, role)
-  VALUES (nextval('student_adm_seq'), %s, %s, %s, %s, %s)
-  """
+   # Determine the table to save the user to.
+  if role == "2":
+    table_name = "students"
+  elif role == "3":
+    table_name = "teachers"
+  elif role == "1":
+    table_name = "administrators"
+  else:
+    raise ValueError("Invalid role")
 
+  # Create a SQL statement to insert the student into the database.
+#   sql = """
+#   INSERT INTO students (student_adm, first_name, surname, email, password, role)
+#   VALUES (nextval('student_adm_seq'), %s, %s, %s, %s, %s)
+#   """
+  if role != "3":
+  # Insert the user's data into the table.
+    cursor.execute(f"INSERT INTO {table_name} (first_name, surname, email, password, role) VALUES (%s, %s, %s, %s, %s)",
+                 (first_name, surname, email, password, role))
+  else:
+    identity_number = input("Enter the teacher's National Identity Number: ")
+    department = input("Enter the teacher's department: ")
+    cursor.execute(f"INSERT INTO {table_name} (first_name, surname, email, password, role, identity_number, department) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                 (first_name, surname, email, password, role, identity_number, department))
   # Execute the SQL statement.
-  cursor.execute(sql, (first_name, surname, email, password, role))
+#   cursor.execute(sql, (first_name, surname, email, password, role))
 
   # Commit the changes to the database.
   db.commit()
@@ -72,7 +93,7 @@ def get_all_data():
   cursor = db.cursor()
 
   # Get all data from the students table.
-  sql = "SELECT * FROM students"
+  sql = "SELECT * FROM teachers"
   cursor.execute(sql)
 
   # Print all data.
