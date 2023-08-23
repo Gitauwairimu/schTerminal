@@ -3,7 +3,7 @@ def teacher_menu():
 
   print("1. Attendance")
   print("2. Post Exam Results")
-  print("3. Post Classes")
+  print("3. Post Class Schedule")
   print("4. View Students")
   print("5. Issue Homework")
   print("6. Back")

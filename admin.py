@@ -1,5 +1,13 @@
+import requests, os, sys, shutil
 import psycopg2
 from contdb import connect_to_database
+
+
+# Read the .env file: Get variablesss .
+with open(".env") as f:
+  env_vars = f.read().splitlines()
+
+SLACK_WEBHOOK_URL = env_vars[2].split("=")[1]
 
 # Create a database connection.
 db = connect_to_database()
@@ -86,7 +94,17 @@ def create_user(role):
   # Commit the changes to the database.
   db.commit()
   print(f'User created as {role}')
-  
+
+  # Send a Slack message to notify the user that they have been registered.
+  slack_webhook_url = {SLACK_WEBHOOK_URL}
+  # slack_webhook_url = "https://hooks.slack.com/services/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"
+  image_url = "https://img.freepik.com/free-photo/fashion-little-boy_71767-95.jpg?w=740&t=st=1692783130~exp=1692783730~hmac=fb5497f861438368540cc91e7c3c65af404b283a8c17fc8818a3adf18ed60042"
+
+  payload = {
+    "text": f"User {first_name} {surname} has been registered as {role}. Their email address is {email}",
+    "username": "Registration Bot", "icon_url": image_url}
+  requests.post(slack_webhook_url, json=payload)
+
 def get_all_data():
   """Gets all data from the database and prints it in the terminal."""
 
@@ -141,8 +159,8 @@ def admin_menu():
     print("Invalid choice")
     admin_menu()
 
-def delete_user():
-  pass
+# def delete_user():
+#   pass
 
 
 def edit_student():
@@ -314,8 +332,10 @@ def login_admin():
 
   if count == 0:
     # No administrator exists, so register one.
+    print('                                                      ')
     print("No administrator exists. Registering a new administrator...")
-    first_name = input("Enter the user's first name: ")
+    print('                                                      ')
+    first_name = input("Enter the admin's first name: ")
     surname = input("Enter the user's surname: ")
     email = input("Enter the user's email address: ")
     password = input("Enter the user's password: ")
