@@ -118,7 +118,8 @@ def admin_menu():
   print("1. Create User")
   print("2. Edit User")
   print("3. Delete User")
-  print("4. Back")
+  print("4. View Users")
+  print("5. Back")
 
   print('............................................')
   print('                                            ')
@@ -133,7 +134,9 @@ def admin_menu():
   elif choice == "3":
     delete_user()
   elif choice == "4":
-    return
+    view_all_users()
+  elif choice == "5":
+    admin_menu()
   else:
     print("Invalid choice")
     admin_menu()
@@ -304,7 +307,8 @@ def edit_user():
 
 def login_admin():
   # Check if the administrator exists.
-  cursor.execute(f"SELECT COUNT(*) FROM administrators WHERE admin_no = 1;")
+  cursor.execute(f"SELECT COUNT(*) FROM administrators WHERE admin_no >= 1;")
+  # cursor.execute(f"SELECT COUNT(*) FROM administrators WHERE admin_no = 1;")
   count = cursor.fetchone()[0]
 
 
@@ -315,9 +319,10 @@ def login_admin():
     surname = input("Enter the user's surname: ")
     email = input("Enter the user's email address: ")
     password = input("Enter the user's password: ")
-    cursor.execute(f"INSERT INTO admin (first_name, surname, email, password, administrator) VALUES (%s, %s, %s, %s, %s)",
-                 (first_name, surname, email, password, 1))
-    conn.commit()
+    role = 'administrator'
+    cursor.execute(f"INSERT INTO administrators (first_name, surname, email, password, role) VALUES (%s, %s, %s, %s, %s)",
+                 (first_name, surname, email, password, role))
+    db.commit()
     print("Administrator registered successfully.")
 
   # The administrator already exists, so log in.
@@ -351,6 +356,103 @@ def login():
   else:
     # The password does not match.
     print("The password does not match.")
+
+def delete_user():
+  """Edits an existing user in the database."""
+
+  print('Choose Category of User to delete')
+  # user_id = input("Enter ID of user to edit: ")
+
+  print('                                            ')
+  print('                                            ')
+
+  print("1. Delete Administrator")
+  print("2. Delete Teacher")
+  print("3. Delete Support Staff")
+  print("4. Delete Student")
+
+  print('............................................')
+  print('                                            ')
+  print('                                            ')
+
+  user_to_delete = input("Enter your choice (1-4): ")
+
+  try:
+    user_to_delete = int(user_to_delete)
+  except ValueError:
+    print("Invalid user category. Please enter a number between 1 and 4.")
+    return None
+
+  if user_to_delete == 1:
+    delete_admin()
+  elif user_to_delete == 2:
+    delete_teacher()
+  elif user_to_delete == 3:
+    delete_support_staff()
+  elif user_to_delete == 4:
+    delete_student()
+  else:
+    print('You must choose from existing categories')
+
+def delete_admin():
+  admin_no = input('Enter admin_no of Admin to be deleted: ')
+  # Check if the admin exists.
+  cursor.execute(f"SELECT * FROM administrators WHERE admin_no = {admin_no};")
+  row = cursor.fetchone()
+
+  if row is None:
+    # The admin does not exist.
+    print("The admin does not exist.")
+    return
+
+  # Delete the admin.
+  cursor.execute(f"DELETE FROM administrators WHERE admin_no = {admin_no};")
+  db.commit()
+
+  print("The admin has been deleted.")
+
+
+def view_all_users():
+  # Get all administrators.
+  cursor.execute(f"SELECT * FROM administrators;")
+  administrators = cursor.fetchall()
+
+  # Get all teachers.
+  cursor.execute(f"SELECT * FROM teachers;")
+  teachers = cursor.fetchall()
+
+  # Get all support staff.
+  # cursor.execute(f"SELECT * FROM support_staff;")
+  # support_staff = cursor.fetchall()
+
+  # Get all students.
+  cursor.execute(f"SELECT * FROM students;")
+  students = cursor.fetchall()
+
+  print ('                                         ')
+
+  # Print all users.
+  print("Administrators:")
+  for administrator in administrators:
+    print(administrator)
+
+  print ('                                         ')
+
+  print("Teachers:")
+  for teacher in teachers:
+    print(teacher)
+  
+  print ('                                         ')
+
+  # print("Support staff:")
+  # for support_staff in support_staff:
+  #   print(support_staff)
+
+  print("Students:")
+  for student in students:
+    print(student)
+  
+  print ('                                         ')
 
 
 
