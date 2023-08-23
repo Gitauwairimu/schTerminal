@@ -1,4 +1,4 @@
-import student, admin
+import student, admin, teacher
 
 
 def role_menu():
@@ -56,7 +56,8 @@ def role_menu():
     student.student_menu()
   elif choice == 1:
     admin.login_admin()
-    # admin.admin_menu()
+  elif choice == 2:
+    teacher.teacher_menu()
 
 
 

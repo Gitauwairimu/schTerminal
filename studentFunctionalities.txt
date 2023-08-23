@@ -7,4 +7,4 @@
     Keep track of the students who are registered for each extracurricular activity.
     Send reminders to students about upcoming extracurricular activities.
 
-Resolve duplicationof student attendnance records
+Resolve duplication of student attendnance records
