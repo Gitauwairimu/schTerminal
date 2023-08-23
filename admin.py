@@ -96,7 +96,7 @@ def create_user(role):
   print(f'User created as {role}')
 
   # Send a Slack message to notify the user that they have been registered.
-  slack_webhook_url = {SLACK_WEBHOOK_URL}
+  slack_webhook_url = str(SLACK_WEBHOOK_URL)
   # slack_webhook_url = "https://hooks.slack.com/services/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"
   image_url = "https://img.freepik.com/free-photo/fashion-little-boy_71767-95.jpg?w=740&t=st=1692783130~exp=1692783730~hmac=fb5497f861438368540cc91e7c3c65af404b283a8c17fc8818a3adf18ed60042"
 
@@ -137,7 +137,8 @@ def admin_menu():
   print("2. Edit User")
   print("3. Delete User")
   print("4. View Users")
-  print("5. Back")
+  print("5. Register Lecture Halls")
+  print("6. Back")
 
   print('............................................')
   print('                                            ')
@@ -154,6 +155,8 @@ def admin_menu():
   elif choice == "4":
     view_all_users()
   elif choice == "5":
+    register_lecture_hall()
+  elif choice == "6":
     admin_menu()
   else:
     print("Invalid choice")
@@ -162,6 +165,33 @@ def admin_menu():
 # def delete_user():
 #   pass
 
+def register_lecture_hall():
+  """Registers a new lecture hall in the database."""
+
+  # Prompt the user for the lecture hall name.
+  lecture_hall_name = input("Enter the lecture hall name: ")
+  
+  # Prompt the user for the lecture hall capacity.
+  capacity = input("Enter the lecture hall capacity: ")
+
+  # Prompt for hall location
+  location = input("Enter the location of hall: ")
+
+  # Create a SQL statement to insert the lecture hall into the database.
+  sql = f"""
+    INSERT INTO lecture_halls (lecture_hall_name, capacity, location)
+    VALUES ('{lecture_hall_name}', {capacity}, '{location}')
+  """
+  cursor.execute(sql)
+
+  # Commit the changes to the database.
+  db.commit()
+
+  print('                                               ')
+
+  print(f'Registered Lecture Hall: {lecture_hall_name}')
+
+  print('                                               ')
 
 def edit_student():
   """Edits an existing student in the database."""
