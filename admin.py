@@ -76,6 +76,7 @@ def create_user(role):
                  (first_name, surname, email, password, role))
   else:
     identity_number = input("Enter the teacher's National Identity Number: ")
+    identity_number = int(identity_number)
     department = input("Enter the teacher's department: ")
     cursor.execute(f"INSERT INTO {table_name} (first_name, surname, email, password, role, identity_number, department) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                  (first_name, surname, email, password, role, identity_number, department))
@@ -85,7 +86,7 @@ def create_user(role):
   # Commit the changes to the database.
   db.commit()
   print(f'User created as {role}')
-
+  
 def get_all_data():
   """Gets all data from the database and prints it in the terminal."""
 
@@ -137,6 +138,9 @@ def admin_menu():
     print("Invalid choice")
     admin_menu()
 
+def delete_user():
+  pass
+
 
 def edit_student():
   """Edits an existing student in the database."""
@@ -147,12 +151,12 @@ def edit_student():
   # # Create a cursor object.
   # cursor = db.cursor()
   student_adm = input("Enter student admission number: ")
-  # Get the administrator's data from the database.
+  # Get the student's data from the database.
   sql = f"SELECT * FROM students WHERE student_adm = {student_adm}"
   cursor.execute(sql)
   admin_data = cursor.fetchone()
 
-  # Update the administrator's data.
+  # Update the student's data.
   new_first_name = input("Enter the new name: ")
   new_surname = input("Enter the new surname: ")
   new_email = input("Enter the new email address: ")
@@ -164,7 +168,7 @@ def edit_student():
   # Commit the changes to the database.
   db.commit()
 
-  # Print a message to confirm that the administrator was edited.
+  # Print a message to confirm that the student was edited.
   print("Student edited")
 
 
@@ -176,30 +180,32 @@ def edit_teacher():
 
   # # Create a cursor object.
   # cursor = db.cursor()
-  identity_number = int(input("Enter teacher's national identity number to edit: "))
+  identity_number = input("Enter teacher's national identity number to edit: ")
   # Get the teacher's data from the database.
-  sql = f"SELECT * FROM teachers WHERE identity_number = {identity_number}"
-  # if identity_number:
-  #   sql = f"SELECT * FROM teachers WHERE CAST(identity_number AS int) = {identity_number}"
-  # else:
-  #   print("identity number field cannot be empty")
+  # sql = f"SELECT * FROM teachers WHERE identity_number = {identity_number}"
+  
+  sql = f"SELECT * FROM teachers WHERE CAST(identity_number AS integer) = {identity_number}"
+  
+  if sql:
+    cursor.execute(sql)
+  else:
+    print("SQL statement is empty")
 
-  cursor.execute(sql)
   admin_data = cursor.fetchone()
 
-  # Update the administrator's data.
+  # Update the teacher's data.
   new_first_name = input("Enter the new name: ")
   new_surname = input("Enter the new surname: ")
   new_email = input("Enter the new email address: ")
   new_password = input("Enter the new password: ")
 
-  sql = f"UPDATE teachers SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE CAST(identity_number AS int) = {identity_number}"
+  sql = f"UPDATE teachers SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE CAST(identity_number AS integer) = {identity_number}"
   cursor.execute(sql)
 
   # Commit the changes to the database.
   db.commit()
 
-  # Print a message to confirm that the administrator was edited.
+  # Print a message to confirm that the teacher was edited.
   print("Teacher details updated")
 
 
@@ -295,6 +301,57 @@ def edit_user():
 
   # Print a message to confirm that the user was edited.
   print("User edited")
+
+def login_admin():
+  # Check if the administrator exists.
+  cursor.execute(f"SELECT COUNT(*) FROM administrators WHERE admin_no = 1;")
+  count = cursor.fetchone()[0]
+
+
+  if count == 0:
+    # No administrator exists, so register one.
+    print("No administrator exists. Registering a new administrator...")
+    first_name = input("Enter the user's first name: ")
+    surname = input("Enter the user's surname: ")
+    email = input("Enter the user's email address: ")
+    password = input("Enter the user's password: ")
+    cursor.execute(f"INSERT INTO admin (first_name, surname, email, password, administrator) VALUES (%s, %s, %s, %s, %s)",
+                 (first_name, surname, email, password, 1))
+    conn.commit()
+    print("Administrator registered successfully.")
+
+  # The administrator already exists, so log in.
+  login()
+
+
+def login():
+  # Get the admin's identity number.
+  admin_no = input("Enter the administrator's identity number: ")
+
+  # Check if the administrator exists.
+  cursor.execute(f"SELECT * FROM administrators WHERE admin_no = {admin_no};")
+  row = cursor.fetchone()
+
+  if row is None:
+    # The administrator does not exist.
+    print("The administrator does not exist.")
+    return
+
+  # Get the administrator's password.
+  password = row[4]
+
+  # Check if the password matches.
+  entered_password = input("Enter the administrator's password: ")
+
+  if password == entered_password:
+    # The password matches. The administrator is logged in.
+    print("The administrator is logged in.")
+    # Display the admins_menu.
+    admin_menu()
+  else:
+    # The password does not match.
+    print("The password does not match.")
+
 
 
 # if __name__ == "__main__":

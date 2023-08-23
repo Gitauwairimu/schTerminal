@@ -75,4 +75,4 @@ def connect_to_database():
 
 # if __name__ == "__main__":
 #   main()
-connect_to_database()
+# connect_to_database()

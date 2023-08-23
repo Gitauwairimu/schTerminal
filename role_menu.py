@@ -55,7 +55,8 @@ def role_menu():
   if choice == 4:
     student.student_menu()
   elif choice == 1:
-    admin.admin_menu()
+    admin.login_admin()
+    # admin.admin_menu()
 
 
 
