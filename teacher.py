@@ -165,6 +165,9 @@ def post_class_schedule():
   time = class_time_periods()
   print('                                 ')
 
+  # Get the name of the teacher associated with the integer value of class_tutor.
+  class_tutor = teachers[class_tutor - 1][1]
+
   # Save the data to the database.
   # Connect to the database.
   connection = connect_to_database()
@@ -450,8 +453,8 @@ def post_exam_results():
     return
 
   # Insert the exam results into the database.
-  cursor.execute('INSERT INTO exam_results (exam_name, student_id, date_taken, exam_score, course, class_tutor, exam_type) VALUES (%s, %s, %s, %s, %s, %s, %s)',
-              (exam_name, student_id, date_taken, exam_score, course_name, class_tutor, exam_type))
+  cursor.execute('INSERT INTO exam_results (student_id, date_taken, exam_score, course, class_tutor, exam_type) VALUES (%s, %s, %s, %s, %s, %s)',
+              (student_id, date_taken, exam_score, course_name, class_tutor, exam_type))
 
   # Commit the changes to the database.
   connection.commit()
