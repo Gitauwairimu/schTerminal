@@ -128,8 +128,11 @@ def view_attendance():
 
   date_attendance_for_str = str(date_attendance_for)
 
-  cursor.execute('SELECT student_id, class_name, attendance, date_attendance_taken FROM attendance WHERE date_attendance_for = %s',
-                  (date_attendance_for_str,))
+  # cursor.execute('SELECT student_id, class_name, attendance, date_attendance_taken FROM attendance WHERE date_attendance_for = %s',
+  #                 (date_attendance_for_str,))
+
+  cursor.execute('SELECT student_id, class_name, attendance, date_attendance_taken FROM attendance WHERE date_attendance_for = %s AND class_name = %s',
+                  (date_attendance_for_str, class_name))
 
   # cursor.execute('SELECT student_id, class_name, attendance, date_attendance_taken FROM attendance WHERE date_attendance_for = %s',
   #                 (date_attendance_for))
@@ -145,4 +148,37 @@ def view_attendance():
   print("Student ID | Class Name | Attendance | Date Attendance Taken")
   for student_id, class_name, attendance_status, date_attendance_taken in attendance:
     print(f"{student_id:<10} | {class_name:<10} | {attendance_status:<10} | {date_attendance_taken}")
+
+def update_attendance():
+  """Allows the teacher to update the attendance for a particular student."""
+
+  # Get the student ID.
+  print("Enter the student ID: ")
+  student_id = input()
+
+  # Get the attendance status.
+  print("Enter the attendance status (Present/Absent): ")
+  attendance_status = input()
+
+  # Get the date for which the attendance is being updated.
+  print("Date attendance updated for (YYYY-MM-DD): ")
+  date_attendance_for = input()
+
+  # Connect to the database.
+  connection = connect_to_database()
+
+  # Create a cursor to execute SQL statements.
+  cursor = connection.cursor()
+
+  # Update the attendance.
+  cursor.execute('UPDATE attendance SET attendance = %s WHERE student_id = %s AND date_attendance_for = %s',
+                  (attendance_status, student_id, date_attendance_for))
+
+  # Commit the changes to the database.
+  connection.commit()
+
+  # Close the connection to the database.
+  connection.close()
+
+  print(f"Attendance for student {student_id} updated")
 
