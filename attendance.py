@@ -114,6 +114,26 @@ def view_attendance():
   except ValueError:
     print("Invalid date format. Please enter the date in the format YYYY-MM-DD")
 
+ # Get the list of courses from the database.
+  connection = connect_to_database()
+
+  cursor = connection.cursor()
+
+  cursor.execute('SELECT class_name FROM class_schedule')
+  courses = cursor.fetchall()
+
+  # Choose a course from the list.
+  print("Choose a course:")
+  for index, course in enumerate(courses):
+    print(f"{index + 1}. {course[0]}")
+  choice = int(input("Choose Course: "))
+
+  # Validate the input.
+  if choice not in range(1, len(courses) + 1):
+    raise ValueError("Invalid choice")
+
+  class_name = courses[choice - 1][0]
+
 
   # Get the list of students in the class.
   students = view_all_students()
@@ -122,9 +142,9 @@ def view_attendance():
   connection = connect_to_database()
 
   cursor = connection.cursor()
-  
+    
   # declare a variable
-  class_name = None
+  # class_name = None
 
   date_attendance_for_str = str(date_attendance_for)
 
