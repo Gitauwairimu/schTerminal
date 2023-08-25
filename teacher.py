@@ -106,11 +106,11 @@ def view_all_students():
   table = prettytable.PrettyTable(hide_columns=["password"])
 
   # Add the headers to the table.
-  table.field_names = ["Student ID", "Name", "Email", "Role"]
+  table.field_names = ["Student ID", "Name", "Role", "Email"]
 
   # Add the data to the table.
   for student in students:
-    table.add_row([student[0], student[1], student[2], student[3]])
+    table.add_row([student[0], student[1] + ' ' + student[2 ], student[4], student[3]])
 
   # Print the table.
   print(table)
@@ -380,3 +380,84 @@ def view_all_assignments():
   
   # Close the connection to the database.
   connection.close()
+
+def post_exam_results():
+  """Posts the exam results to the database."""
+
+  # Get the exam name from the user.
+  print("Enter the exam type: ")
+  exam_name = input()
+
+  # Connect to the database.
+  connection = connect_to_database()
+
+  # Create a cursor to execute SQL statements.
+  cursor = connection.cursor()
+
+  # Get all the courses from the database.
+  cursor.execute('SELECT class_name FROM class_schedule')
+  courses = cursor.fetchall()
+
+  # Prompt the user to choose a course.
+    # Choose a course from the list.
+  print("Choose a course:")
+  for index, course in enumerate(courses):
+    print(f"{index + 1}. {course[0]}")
+  choice = int(input("Choose Course: "))
+
+  # Validate the input.
+  if choice not in range(1, len(courses) + 1):
+    raise ValueError("Invalid choice")
+  
+  course_name = courses[choice - 1][0]
+
+  # Get the class tutor associated with the course.
+  cursor.execute('SELECT class_tutor FROM class_schedule WHERE class_name = %s', (course_name,))
+  class_tutor = cursor.fetchone()[0]
+
+  print(class_tutor)
+
+
+  # Get the student ID from the user.
+  print("Enter the student ID: ")
+  student_id = input()
+
+  # # Get the date exam taken from the user.
+  # print("Enter the student ID: ")
+  # date_taken = input()
+
+  try:
+    print("Enter date exam taken (YYYY-MM-DD): ")
+    date_taken = input()
+
+    # Convert the due date to a valid format.
+    date_taken = datetime.datetime.strptime(date_taken, '%Y-%m-%d').strftime('%Y-%m-%d')
+
+  except ValueError:
+    print("Invalid date format. Please enter the due date in the format YYYY-MM-DD")
+
+  # Get the exam score from the user.
+  print("Enter the exam score: ")
+  exam_score = input()
+
+  # Check if the exam name is a continuous assessment test or an end-of-course exam.
+  if exam_name in ["Continuous Assessment Test", "CAT"]:
+    exam_type = "CAT"
+  elif exam_name in ["End Course Exam", "ECE"]:
+    exam_type = "ECE"
+  else:
+    print("Invalid exam name.")
+    return
+
+  # Insert the exam results into the database.
+  cursor.execute('INSERT INTO exam_results (exam_name, student_id, date_taken, exam_score, course, class_tutor, exam_type) VALUES (%s, %s, %s, %s, %s, %s, %s)',
+              (exam_name, student_id, date_taken, exam_score, course_name, class_tutor, exam_type))
+
+  # Commit the changes to the database.
+  connection.commit()
+
+  # Close the connection to the database.
+  connection.close()
+
+  print('Exam Results Posted')
+
