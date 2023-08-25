@@ -1,6 +1,7 @@
 from contdb import connect_to_database
 from class_time import class_period, class_time_periods
-from admin import get_all_data
+from attendance import take_daily_attendance, view_attendance
+from admin import get_all_data, user
 import prettytable
 import datetime
 
@@ -149,7 +150,7 @@ def post_class_schedule():
   print('                                 ')
   class_tutor = int(input("Choose Class Tutor: "))
 
-  print("Enter days class held: ")
+  print("Enter days of week class held: ")
   class_days = input()
 
   print("Enter the start date: ")
@@ -271,10 +272,10 @@ def attendance_menu():
   elif choice == "3":
     update_attendance()
   elif choice == "4":
-    attendance_menu()
+    teacher_menu()
   else:
     print("Invalid choice")
-    attendance_menu()
+    teacher_menu()
 
 
 def create_assignment():
