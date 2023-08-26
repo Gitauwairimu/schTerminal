@@ -110,7 +110,7 @@ def create_user(role):
   # Get the last admin number from the database.
   # Execute the query.
   cursor.execute("""
-  SELECT admin_no, admin_mobile FROM administrators ORDER BY admin_no DESC LIMIT 1;
+  SELECT admin_no, admin_mobile, first_name FROM administrators ORDER BY admin_no DESC LIMIT 1;
   """)
 
   # Fetch the results of the query.
@@ -119,6 +119,7 @@ def create_user(role):
   # Use the values from the results.
   admin_no = results[0]
   admin_mobile = results[1]
+  first_name = results[2]
 
 
   # Send a Slack message to notify the user that they have been registered.
@@ -131,7 +132,7 @@ def create_user(role):
   requests.post(slack_webhook_url, json=payload)
 
   if role == "1":
-    send_sms(to=admin_mobile, body=f"Use admin number: {admin_no} to login. Account created.")
+    send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
 
 
 def get_all_data():
