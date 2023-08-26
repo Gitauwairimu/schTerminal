@@ -47,12 +47,13 @@ def get_role():
 
   while role not in roles.keys():
     print("Invalid role. Please choose a valid role.")
+    get_role()
     # role = input("Enter Role: ")
 #   print(roles.keys())
 #   role = role.keys
   role = {roles[role]}
+  role = ','.join(role)
   print(role)
 
-  return role
+  return roles
 
-get_role()
