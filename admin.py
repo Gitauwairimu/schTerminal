@@ -121,14 +121,14 @@ def create_user(role):
   admin_mobile = results[1]
   print(f'sending admin Number: {admin_no} to {admin_mobile}')
   # Send a Slack message to notify the user that they have been registered.
-  slack_webhook_url = str(SLACK_WEBHOOK_URL)
-  # slack_webhook_url = "https://hooks.slack.com/services/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"
-  image_url = "https://img.freepik.com/free-photo/fashion-little-boy_71767-95.jpg?w=740&t=st=1692783130~exp=1692783730~hmac=fb5497f861438368540cc91e7c3c65af404b283a8c17fc8818a3adf18ed60042"
+  # slack_webhook_url = str(SLACK_WEBHOOK_URL)
+  # # slack_webhook_url = "https://hooks.slack.com/services/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"
+  # image_url = "https://img.freepik.com/free-photo/fashion-little-boy_71767-95.jpg?w=740&t=st=1692783130~exp=1692783730~hmac=fb5497f861438368540cc91e7c3c65af404b283a8c17fc8818a3adf18ed60042"
 
-  payload = {
-    "text": f"User {first_name} {surname} has been registered as {role}. Their email address is {email}",
-    "username": "Registration Bot", "icon_url": image_url}
-  requests.post(slack_webhook_url, json=payload)
+  # payload = {
+  #   "text": f"User {first_name} {surname} has been registered as {role}. Their email address is {email}",
+  #   "username": "Registration Bot", "icon_url": image_url}
+  # requests.post(slack_webhook_url, json=payload)
 
   if role == "1":
     # Insert the user's data into the table.
