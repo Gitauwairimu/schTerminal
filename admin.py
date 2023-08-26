@@ -2,6 +2,7 @@ import requests, os, sys, shutil
 import psycopg2
 from contdb import connect_to_database
 from sms import send_sms
+import hashlib
 
 
 # Read the .env file: Get variablesss .
@@ -63,6 +64,10 @@ def create_user(role):
   surname = input("Enter the user's surname name: ")
   email = input("Enter the user's email address: ")
   password = input("Enter the user's password: ")
+
+  # Hash the password.
+  password = hashlib.sha256(password.encode()).hexdigest()
+
 
    # Determine the table to save the user to.
   if role == "2":
@@ -131,8 +136,8 @@ def create_user(role):
     "username": "Registration Bot", "icon_url": image_url}
   requests.post(slack_webhook_url, json=payload)
 
-  if role == "1":
-    send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
+  # if role == "1":
+  #   send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
 
 
 def get_all_data():
@@ -243,6 +248,9 @@ def edit_student():
   new_email = input("Enter the new email address: ")
   new_password = input("Enter the new password: ")
 
+  # Hash the new_password
+  new_password = hashlib.sha256(new_password.encode()).hexdigest()
+
   sql = f"UPDATE students SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE student_adm = {student_adm}"
   cursor.execute(sql)
 
@@ -280,6 +288,10 @@ def edit_teacher():
   new_email = input("Enter the new email address: ")
   new_password = input("Enter the new password: ")
 
+  # Hash the new_password
+  new_password = hashlib.sha256(new_password.encode()).hexdigest()
+
+
   sql = f"UPDATE teachers SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE CAST(identity_number AS integer) = {identity_number}"
   cursor.execute(sql)
 
@@ -310,6 +322,10 @@ def edit_admin():
   new_email = input("Enter the new email address: ")
   new_password = input("Enter the new password: ")
   new_admin_mobile = input("Enter the new mobile phone number: ")
+
+  # Hash the new_password
+  new_password = hashlib.sha256(new_password.encode()).hexdigest()
+
 
   sql = f"UPDATE administrators SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}', admin_mobile = '{new_admin_mobile}' WHERE admin_no = {admin_no}"
   cursor.execute(sql)
@@ -402,6 +418,10 @@ def login_admin():
     password = input("Enter the admin's password: ")
     admin_mobile = input("Enter the admin's mobile phone number: ")
     role = 'administrator'
+
+    # Hash the password that the user entered.
+    password = hashlib.sha256(password.encode()).hexdigest()
+
     cursor.execute(f"INSERT INTO administrators (first_name, surname, email, password, role, admin_mobile) VALUES (%s, %s, %s, %s, %s, %s)",
                  (first_name, surname, email, password, role, admin_mobile))
     db.commit()
@@ -432,6 +452,10 @@ def login():
 
   # Check if the password matches.
   entered_password = input("Enter the administrator's password: ")
+
+    # Hash the new_password
+  entered_password = hashlib.sha256(entered_password.encode()).hexdigest()
+
 
   if password == entered_password:
     # The password matches. The administrator is logged in.
