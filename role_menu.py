@@ -11,7 +11,7 @@ def role_menu():
   print("3. Guest")
   print("4. Student")
 
-  # Create space for delianation
+  # Create space
   print('............................................')
   print('                                            ')
   print('                                            ')

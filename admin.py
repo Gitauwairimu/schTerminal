@@ -10,10 +10,10 @@ with open(".env") as f:
 
 SLACK_WEBHOOK_URL = env_vars[2].split("=")[1]
 
-# Create a database connection.
+# # Create a database connection.
 db = connect_to_database()
 
-# Create a cursor object.
+# # Create a cursor object.
 cursor = db.cursor()
 
 def get_role():
@@ -54,7 +54,7 @@ def create_user(role):
   """Creates a new user with the given role."""
   # Get the name, email, password, and role from the user.
   role = get_role()
-  cursor = db.cursor()
+  # cursor = db.cursor()
   print(role)
 
 
@@ -138,7 +138,7 @@ def get_all_data():
   """Gets all data from the database and prints it in the terminal."""
 
   # Get a cursor object.
-  cursor = db.cursor()
+  # cursor = db.cursor()
 
   # Get all data from the students table.
   sql = "SELECT * FROM teachers"
@@ -558,7 +558,7 @@ def user():
   create_user(role)
 
   # Get all data from the database and print it in the terminal.
-  get_all_data()
+  # get_all_data()
 
 if __name__ == "__main__":
 #   # Call the main function.
