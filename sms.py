@@ -9,10 +9,11 @@ def send_sms(to, body):
 
   # account_sid = 'AC6b96af4ceebfef859e74bd30f48de009'
   # auth_token = '83c48141f5dfb7cbbe1d74898e5c7620'
-
+  
   account_sid = ACCOUNT_SID
   auth_token = AUTH_TOKEN
-
+  print(account_sid)
+  print(auth_token)
   client = Client(account_sid, auth_token)
 
   # admin_no = 1234
