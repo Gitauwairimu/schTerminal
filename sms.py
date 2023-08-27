@@ -13,7 +13,6 @@ def send_sms(to, body):
 
   client = Client(account_sid, auth_token)
 
-
   message = client.messages.create(
     from_='+14706885125',
     body=body,

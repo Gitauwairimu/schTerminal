@@ -2,7 +2,9 @@ import requests, os, sys, shutil
 import psycopg2
 from contdb import connect_to_database
 from sms import send_sms
-
+import hashlib
+# from notifications import send_slack_message
+from notifications import send_slack_message
 
 # Read the .env file: Get variablesss .
 with open(".env") as f:
@@ -10,10 +12,10 @@ with open(".env") as f:
 
 SLACK_WEBHOOK_URL = env_vars[2].split("=")[1]
 
-# Create a database connection.
+# # Create a database connection.
 db = connect_to_database()
 
-# Create a cursor object.
+# # Create a cursor object.
 cursor = db.cursor()
 
 def get_role():
@@ -54,7 +56,7 @@ def create_user(role):
   """Creates a new user with the given role."""
   # Get the name, email, password, and role from the user.
   role = get_role()
-  cursor = db.cursor()
+  # cursor = db.cursor()
   print(role)
 
 
@@ -63,6 +65,10 @@ def create_user(role):
   surname = input("Enter the user's surname name: ")
   email = input("Enter the user's email address: ")
   password = input("Enter the user's password: ")
+
+  # Hash the password.
+  password = hashlib.sha256(password.encode()).hexdigest()
+
 
    # Determine the table to save the user to.
   if role == "2":
@@ -110,7 +116,7 @@ def create_user(role):
   # Get the last admin number from the database.
   # Execute the query.
   cursor.execute("""
-  SELECT admin_no, admin_mobile FROM administrators ORDER BY admin_no DESC LIMIT 1;
+  SELECT admin_no, admin_mobile, first_name FROM administrators ORDER BY admin_no DESC LIMIT 1;
   """)
 
   # Fetch the results of the query.
@@ -119,26 +125,23 @@ def create_user(role):
   # Use the values from the results.
   admin_no = results[0]
   admin_mobile = results[1]
-  print(f'sending admin Number: {admin_no} to {admin_mobile}')
-  # Send a Slack message to notify the user that they have been registered.
-  slack_webhook_url = str(SLACK_WEBHOOK_URL)
-  # slack_webhook_url = "https://hooks.slack.com/services/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"
-  image_url = "https://img.freepik.com/free-photo/fashion-little-boy_71767-95.jpg?w=740&t=st=1692783130~exp=1692783730~hmac=fb5497f861438368540cc91e7c3c65af404b283a8c17fc8818a3adf18ed60042"
+  first_name = results[2]
 
-  payload = {
-    "text": f"User {first_name} {surname} has been registered as {role}. Their email address is {email}",
-    "username": "Registration Bot", "icon_url": image_url}
-  requests.post(slack_webhook_url, json=payload)
+  send_slack_message(admin_no, first_name, admin_mobile)
 
   if role == "1":
+<<<<<<< HEAD
     send_sms(to=admin_mobile, body=f"Your admin number: {admin_no}. Account created.")
+=======
+    send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
+>>>>>>> admin_features
 
 
 def get_all_data():
   """Gets all data from the database and prints it in the terminal."""
 
   # Get a cursor object.
-  cursor = db.cursor()
+  # cursor = db.cursor()
 
   # Get all data from the students table.
   sql = "SELECT * FROM teachers"
@@ -242,6 +245,9 @@ def edit_student():
   new_email = input("Enter the new email address: ")
   new_password = input("Enter the new password: ")
 
+  # Hash the new_password
+  new_password = hashlib.sha256(new_password.encode()).hexdigest()
+
   sql = f"UPDATE students SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE student_adm = {student_adm}"
   cursor.execute(sql)
 
@@ -279,6 +285,10 @@ def edit_teacher():
   new_email = input("Enter the new email address: ")
   new_password = input("Enter the new password: ")
 
+  # Hash the new_password
+  new_password = hashlib.sha256(new_password.encode()).hexdigest()
+
+
   sql = f"UPDATE teachers SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE CAST(identity_number AS integer) = {identity_number}"
   cursor.execute(sql)
 
@@ -309,6 +319,10 @@ def edit_admin():
   new_email = input("Enter the new email address: ")
   new_password = input("Enter the new password: ")
   new_admin_mobile = input("Enter the new mobile phone number: ")
+
+  # Hash the new_password
+  new_password = hashlib.sha256(new_password.encode()).hexdigest()
+
 
   sql = f"UPDATE administrators SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}', admin_mobile = '{new_admin_mobile}' WHERE admin_no = {admin_no}"
   cursor.execute(sql)
@@ -401,6 +415,10 @@ def login_admin():
     password = input("Enter the admin's password: ")
     admin_mobile = input("Enter the admin's mobile phone number: ")
     role = 'administrator'
+
+    # Hash the password that the user entered.
+    password = hashlib.sha256(password.encode()).hexdigest()
+
     cursor.execute(f"INSERT INTO administrators (first_name, surname, email, password, role, admin_mobile) VALUES (%s, %s, %s, %s, %s, %s)",
                  (first_name, surname, email, password, role, admin_mobile))
     db.commit()
@@ -431,6 +449,10 @@ def login():
 
   # Check if the password matches.
   entered_password = input("Enter the administrator's password: ")
+
+    # Hash the new_password
+  entered_password = hashlib.sha256(entered_password.encode()).hexdigest()
+
 
   if password == entered_password:
     # The password matches. The administrator is logged in.
@@ -558,7 +580,7 @@ def user():
   create_user(role)
 
   # Get all data from the database and print it in the terminal.
-  get_all_data()
+  # get_all_data()
 
 if __name__ == "__main__":
 #   # Call the main function.

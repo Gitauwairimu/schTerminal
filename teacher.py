@@ -1,7 +1,8 @@
 from contdb import connect_to_database
 from class_time import class_period, class_time_periods
 from attendance import take_daily_attendance, view_attendance, update_attendance
-from admin import get_all_data, user
+# from admin import get_all_data, user
+from admin import get_all_data
 import prettytable
 import datetime
 
