@@ -4,7 +4,8 @@ with open(".env") as f:
 ACCOUNT_SID = env_vars[3].split("=")[1]
 AUTH_TOKEN = env_vars[4].split("=")[1]
 
-def send_sms(to, body):
+def send_sms():
+# def send_sms(to, body):
   from twilio.rest import Client
 
   # account_sid = 'AC6b96af4ceebfef859e74bd30f48de009'
@@ -18,18 +19,19 @@ def send_sms(to, body):
   # admin_no = 1234
   # body = f"Your admin_no is {admin_no}.")
   # body = f"Your admin_no is {admin_no}"
-
-  message = client.messages.create(
-    from_='+14706885125',
-    body=body,
-    to=to
-  )
-
+  body = f"Thank you"
 
   # message = client.messages.create(
   #   from_='+14706885125',
   #   body=body,
-  #   to='+254720051528'
+  #   to=to
   # )
+
+
+  message = client.messages.create(
+    from_='+14706885125',
+    body=body,
+    to='+254720051528'
+  )
 
   print(message.sid)
