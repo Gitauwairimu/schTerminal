@@ -3,7 +3,8 @@ import psycopg2
 from contdb import connect_to_database
 from sms import send_sms
 import hashlib
-
+# from notifications import send_slack_message
+from notifications import send_slack_message
 
 # Read the .env file: Get variablesss .
 with open(".env") as f:
@@ -126,18 +127,10 @@ def create_user(role):
   admin_mobile = results[1]
   first_name = results[2]
 
+  send_slack_message(admin_no, first_name, admin_mobile)
 
-  # Send a Slack message to notify the user that they have been registered.
-  slack_webhook_url = str(SLACK_WEBHOOK_URL)
-  image_url = "https://img.freepik.com/free-photo/fashion-little-boy_71767-95.jpg?w=740&t=st=1692783130~exp=1692783730~hmac=fb5497f861438368540cc91e7c3c65af404b283a8c17fc8818a3adf18ed60042"
-
-  payload = {
-    "text": f"User {first_name} {surname} has been registered as {role}. Their email address is {email}",
-    "username": "Registration Bot", "icon_url": image_url}
-  requests.post(slack_webhook_url, json=payload)
-
-  # if role == "1":
-  #   send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
+  if role == "1":
+    send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
 
 
 def get_all_data():

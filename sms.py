@@ -20,3 +20,6 @@ def send_sms(to, body):
 
 
   print(message.sid)
+
+admin_mobile="+254720051528"
+send_sms(to=admin_mobile, body="Welcome, Use admin number: 1 to login. Account created.")
