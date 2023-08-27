@@ -131,9 +131,6 @@ def create_user(role):
   requests.post(slack_webhook_url, json=payload)
 
   if role == "1":
-    # Insert the user's data into the table.
-    # admin_mobile = input("Enter the admin's mobile phone number: ")
-    # Send an SMS to the admin to notify them of their registration.
     send_sms(to=admin_mobile, body=f"Your admin number: {admin_no}. Account created.")
 
 
