@@ -130,11 +130,7 @@ def create_user(role):
   send_slack_message(admin_no, first_name, admin_mobile)
 
   if role == "1":
-<<<<<<< HEAD
-    send_sms(to=admin_mobile, body=f"Your admin number: {admin_no}. Account created.")
-=======
     send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
->>>>>>> admin_features
 
 
 def get_all_data():
