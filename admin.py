@@ -91,17 +91,14 @@ def get_role():
 
 def create_user(role):
   """Creates a new user with the given role."""
-  # Get the name, email, password, and role from the user.
-  role = get_role()
-  # cursor = db.cursor()
   print(role)
 
 
   # Get the user's details.
-  first_name = input("Enter the user's first name: ")
-  surname = input("Enter the user's surname name: ")
-  email = input("Enter the user's email address: ")
-  password = input("Enter the user's password: ")
+  first_name = input(f"Enter the {role}'s first name: ")
+  surname = input(f"Enter the {role}'s surname name: ")
+  email = input(f"Enter the {role}'s email address: ")
+  password = input(f"Enter the {role}'s password: ")
 
   # Hash the password.
   password = hashlib.sha256(password.encode()).hexdigest()
@@ -119,7 +116,6 @@ def create_user(role):
 
   admin_no = None
   if role == "administrator":
-    role = 'administrator'
     # Insert the user's data into the table.
     admin_mobile = input("Enter the admin's mobile phone number: ")
 
@@ -127,15 +123,13 @@ def create_user(role):
                  (first_name, surname, email, admin_mobile, password, role))
 
   elif role == "student":
-    role = 'student'
   # Insert the user's data into the table.
     cursor.execute(f"INSERT INTO {table_name} (first_name, surname, email, password, role) VALUES (%s, %s, %s, %s, %s)",
                  (first_name, surname, email, password, role))
     
-    # Get the admin number from the database.
-    
+   
   elif role == "teaching staff":
-    role = 'teacher'
+    # role = 'teacher'
     identity_number = input("Enter the teacher's National Identity Number: ")
     identity_number = int(identity_number)
     department = input("Enter the teacher's department: ")
@@ -180,16 +174,6 @@ def get_all_data():
     print(row)
 
 
-# if __name__ == "__main__":
-#   # Get the role of the user.
-#   role = get_role()
-
-#   # # Create a new user with the given role.
-#   create_user(role)
-
-#   # # Get all data from the database and print it in the terminal.
-#   get_all_data()
-
 def admin_menu():
   """Displays the admin menu and allows the user to select an option."""
 
@@ -222,8 +206,6 @@ def admin_menu():
     print("Invalid choice")
     admin_menu()
 
-# def delete_user():
-#   pass
 
 def register_lecture_hall():
   """Registers a new lecture hall in the database."""
@@ -403,7 +385,6 @@ def edit_user():
 def login_admin():
   # Check if the administrator exists.
   cursor.execute(f"SELECT COUNT(*) FROM administrators WHERE admin_no >= 1;")
-  # cursor.execute(f"SELECT COUNT(*) FROM administrators WHERE admin_no = 1;")
   count = cursor.fetchone()[0]
 
 
@@ -425,6 +406,18 @@ def login_admin():
     cursor.execute(f"INSERT INTO administrators (first_name, surname, email, password, role, admin_mobile) VALUES (%s, %s, %s, %s, %s, %s)",
                  (first_name, surname, email, password, role, admin_mobile))
     db.commit()
+
+    # Check if the school exists.
+    cursor.execute(f"SELECT COUNT(*) FROM schools;")
+    count = cursor.fetchone()[0]
+
+    if count == 0:
+      # No school exists, so create one.
+      school_name = input("Enter the school's name: ")
+      cursor.execute(f"INSERT INTO schools (name) VALUES (%s)", (school_name,))
+      db.commit()
+      print("School created successfully.")
+
     print("Administrator registered successfully.")
     print(".........................................")
     print('Login Now')
@@ -436,7 +429,7 @@ def login_admin():
 
 def login():
   # Get the admin's identity number.
-  admin_no = input("Enter the administrator's admin number: ")
+  admin_no = input("Login: Enter admin number: ")
 
   # Check if the administrator exists.
   cursor.execute(f"SELECT * FROM administrators WHERE admin_no = {admin_no};")
@@ -460,6 +453,7 @@ def login():
   if password == entered_password:
     # The password matches. The administrator is logged in.
     print("The administrator is logged in.")
+    print('                                  ')
     # Display the admins_menu.
     admin_menu()
   else:
@@ -585,7 +579,7 @@ def user():
   # Get all data from the database and print it in the terminal.
   # get_all_data()
 
-if __name__ == "__main__":
-#   # Call the main function.
-  user()
-# edit_user(user_id)
+# if __name__ == "__main__":
+# #   # Call the main function.
+#   user()
+# # edit_user(user_id)
