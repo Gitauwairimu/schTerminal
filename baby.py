@@ -55,5 +55,6 @@ def get_role():
   role = ','.join(role)
   print(role)
 
-  return roles
+  return role
 
+get_role()
