@@ -5,7 +5,9 @@ def role_menu():
   """Displays a menu of roles and asks the user to choose one."""
 
   # Print the menu of roles.
+  print('                                  ')
   print("Please choose your role:")
+  print('                                  ')
   print("1. Administrator")
   print("2. Teacher")
   print("3. Guest")
