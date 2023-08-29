@@ -31,7 +31,7 @@ def send_slack_message(admin_no, first_name, admin_mobile):
   image_url = "https://img.freepik.com/free-photo/fashion-little-boy_71767-95.jpg?w=740&t=st=1692783130~exp=1692783730~hmac=fb5497f861438368540cc91e7c3c65af404b283a8c17fc8818a3adf18ed60042"
   
   payload = {
-    "text": f"User {first_name} has been registered.",
+    "text": f"User {first_name} of admin number {admin_no} and phone {admin_mobile} has been registered.",
     "username": "Registration Bot", "icon_url": image_url}
   requests.post(slack_webhook_url, json=payload)
 
