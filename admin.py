@@ -46,11 +46,48 @@ def get_role():
 
   while role not in roles.keys():
     print("Invalid role. Please choose a valid role.")
-    # role = input("Enter Role: ")
-#   print(roles.keys())
-#   role = role.keys
+    get_role()
+
+  role = {roles[role]}
+  role = ','.join(role)
 
   return role
+
+# def get_role():
+#   """Displays a menu of roles for user registration."""
+
+#   print("Welcome to the roles menu.")
+#   print("Choose Role of user to be registered?")
+#   print('                                            ')
+#   print('                                            ')
+
+
+#   print("1. Administrator.")
+#   print("2. Student")
+#   print("3. Teaching Staff.")
+#   print("4. Support Staff.")
+#   print("5. Quit.")
+
+#   print('                                            ')
+
+#   role = input("Enter Role: ")
+#   roles = {
+#     "1": "administrator",
+#     "2": "student",
+#     "3": "teaching staff",
+#     "4": "support staff"
+#   }
+
+
+#   while role not in roles.keys():
+#     print("Invalid role. Please choose a valid role.")
+#     # role = input("Enter Role: ")
+# #   print(roles.keys())
+# #   role = role.keys
+
+#   return role
+
+
 
 def create_user(role):
   """Creates a new user with the given role."""
@@ -71,37 +108,34 @@ def create_user(role):
 
 
    # Determine the table to save the user to.
-  if role == "2":
+  if role == "student":
     table_name = "students"
-  elif role == "3":
+  elif role == "teaching staff":
     table_name = "teachers"
-  elif role == "1":
+  elif role == "administrator":
     table_name = "administrators"
   else:
     raise ValueError("Invalid role")
 
-  # Create a SQL statement to insert the student into the database.
-#   sql = """
-#   INSERT INTO students (student_adm, first_name, surname, email, password, role)
-#   VALUES (nextval('student_adm_seq'), %s, %s, %s, %s, %s)
-#   """
   admin_no = None
-  if role == "1":
+  if role == "administrator":
+    role = 'administrator'
     # Insert the user's data into the table.
     admin_mobile = input("Enter the admin's mobile phone number: ")
 
     cursor.execute(f"INSERT INTO {table_name} (first_name, surname, email, admin_mobile, password, role) VALUES (%s, %s, %s, %s, %s, %s)",
                  (first_name, surname, email, admin_mobile, password, role))
 
-  # if role != "3" or role != "1":
-  elif role == "2":
+  elif role == "student":
+    role = 'student'
   # Insert the user's data into the table.
     cursor.execute(f"INSERT INTO {table_name} (first_name, surname, email, password, role) VALUES (%s, %s, %s, %s, %s)",
                  (first_name, surname, email, password, role))
     
     # Get the admin number from the database.
     
-  elif role == "3":
+  elif role == "teaching staff":
+    role = 'teacher'
     identity_number = input("Enter the teacher's National Identity Number: ")
     identity_number = int(identity_number)
     department = input("Enter the teacher's department: ")
@@ -127,6 +161,7 @@ def create_user(role):
   admin_mobile = results[1]
   first_name = results[2]
 
+
   send_slack_message(admin_no, first_name, admin_mobile)
 
   if role == "1":
@@ -135,9 +170,6 @@ def create_user(role):
 
 def get_all_data():
   """Gets all data from the database and prints it in the terminal."""
-
-  # Get a cursor object.
-  # cursor = db.cursor()
 
   # Get all data from the students table.
   sql = "SELECT * FROM teachers"
@@ -264,8 +296,6 @@ def edit_teacher():
   # cursor = db.cursor()
   identity_number = input("Enter teacher's national identity number to edit: ")
   # Get the teacher's data from the database.
-  # sql = f"SELECT * FROM teachers WHERE identity_number = {identity_number}"
-  
   sql = f"SELECT * FROM teachers WHERE CAST(identity_number AS integer) = {identity_number}"
   
   if sql:
@@ -367,30 +397,7 @@ def edit_user():
   else:
     print('You must choose from existing categories')
 
-  # Get the database connection.
-  # db = connect_to_database()
-
-  # Create a cursor object.
-  # cursor = db.cursor()
-
-  # Get the user's data from the database.
-  # sql = f"SELECT * FROM user WHERE id = {user_id}"
-  # cursor.execute(sql)
-  # user_data = cursor.fetchone()
-
-  # Update the user's data.
-  # new_name = input("Enter the new name: ")
-  # new_surname = input("Enter the new surname: ")
-  # new_email = input("Enter the new email address: ")
-  # new_password = input("Enter the new password: ")
-
-  # sql = f"UPDATE users SET name = '{new_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE id = {user_id}"
-  # cursor.execute(sql)
-
-  # Commit the changes to the database.
-  # db.commit()
-
-  # Print a message to confirm that the user was edited.
+ 
   print("User edited")
 
 def login_admin():
