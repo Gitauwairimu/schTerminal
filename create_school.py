@@ -33,7 +33,12 @@ def create_classes():
   streams = 0
   stream_names = []
   while streams_number > streams:
-    stream_name = class_name + '_stream_' + str(streams + 1)
+
+    if streams_number == 1:
+      stream_name = class_name
+    else:
+      stream_name = class_name + '_stream_' + str(streams + 1)
+    
     streams +=1
     stream_names.append(stream_name)
   print(stream_names)
