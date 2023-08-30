@@ -119,6 +119,7 @@ def create_user(role):
 
   # Commit the changes to the database.
   db.commit()
+  logging.info("User {} successfully created as {}".format(first_name, role))
   # db.close()
 
   # cursor = db.cursor()
@@ -426,8 +427,8 @@ def login_admin():
 
     try:
       if role == "1":
-      send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
-      logging.info("sent sms to admin")
+        send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
+        logging.info("sent sms to admin")
     except:
       print("Error sending SMS.")
       logging.info("Error sending SMS")
@@ -457,43 +458,49 @@ def login_admin():
 
 def login():
   # Get the admin's identity number.
-  admin_no = input("Login: Enter admin number: ")
-
-  # Check if the administrator exists.
+  # username = input("Login: Enter Admin Number or First Name: ")
+  admin_no = input("Login: Enter Admin Number or First Name: ")
   cursor.execute(f"SELECT * FROM administrators WHERE admin_no = {admin_no};")
-
   row = cursor.fetchone()
-
-  # Get the administrator's first name.
-  first_name = row[2]
-
-  if row is None:
-    # The administrator does not exist.
-    print("The administrator does not exist.")
-    return
+  
+  if row is not None:
+    # Get the administrator's first name.
+    first_name = row[2]
+    admin_no = row[0]
 
   # Get the administrator's password.
-  password = row[4]
+    password = row[4]
 
-  # Check if the password matches.
-  entered_password = input("Enter the administrator's password: ")
-  print("                                      ")
+    # Check if the password matches.
+    entered_password = input("Enter the administrator's password: ")
+    print("                                      ")
 
-    # Hash the new_password
-  entered_password = hashlib.sha256(entered_password.encode()).hexdigest()
+    #   # Hash the new_password
+    entered_password = hashlib.sha256(entered_password.encode()).hexdigest()
+
+    while password != entered_password:
+      print("Wrong Password.")
+      logging.info("Failed login for user {}".format(first_name))
+      entered_password = input("Enter the administrator's password: ")
+
+      # Hash the new_password
+      entered_password = hashlib.sha256(entered_password.encode()).hexdigest()
+
+    if password == entered_password:
+      # The password matches. The administrator is logged in.
+      print(f"The administrator {first_name} is logged in.")
+      logging.info("User {} login successful".format(first_name))
+      print('                                  ')
+      # Display the admins_menu.
+      admin_menu()
 
 
-  if password == entered_password:
-    # The password matches. The administrator is logged in.
-    print("The administrator is logged in.")
-    logging.info("User {} login successful".format(first_name))
-    print('                                  ')
-    # Display the admins_menu.
-    admin_menu()
   else:
-    # The password does not match.
-    print("The password does not match.")
-    logging.info("Failed login for user {}".format(first_name))
+    # The administrator does not exist.
+    print("The administrator does not exist. Bye!")
+
+  return
+
 
 def delete_user():
   """Edits an existing user in the database."""
@@ -531,6 +538,8 @@ def delete_user():
     delete_student()
   else:
     print('You must choose from existing categories')
+    # logging.info("Chose non existent category for deletion".)
+    logging.info("Chose non existent category for deletion.")
 
 def delete_admin():
   admin_no = input('Enter admin_no of Admin to be deleted: ')
@@ -546,6 +555,7 @@ def delete_admin():
   # Delete the admin.
   cursor.execute(f"DELETE FROM administrators WHERE admin_no = {admin_no};")
   db.commit()
+  logging.info("Deleted admin with admin_no {}".format(admin_no))
 
   print("The admin has been deleted.")
 
@@ -591,6 +601,7 @@ def view_all_users():
     print(student)
   
   print ('                                         ')
+  logging.info("All users viewed")
 
 
 def user():
