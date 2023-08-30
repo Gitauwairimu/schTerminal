@@ -1,5 +1,5 @@
 my-project-env/
-*.txt
+# *.txt
 # Ignore all .txt files.
 
 __pycache__/
