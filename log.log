@@ -1,0 +1,12 @@
+2023-08-30 10:40:42 INFO No system administrator exists. User prompt to become admin
+2023-08-30 10:41:08 INFO sent sms to admin
+2023-08-30 10:41:08 INFO School doesn't exist. Prompt to create school
+2023-08-30 10:42:03 INFO Created school: Greystone Primary School
+2023-08-30 10:42:03 INFO Created school: Greystone Primary School by user Charles commited to database
+2023-08-30 10:46:16 INFO No system administrator exists. User prompt to become admin
+2023-08-30 10:46:40 INFO sent sms to admin
+2023-08-30 10:46:46 INFO Failed login for user 1
+2023-08-30 10:48:02 INFO Failed login for user 1
+2023-08-30 10:53:53 INFO User Charles login successful
+2023-08-30 10:55:09 INFO Failed login for user Charles
+2023-08-30 10:55:16 INFO User Charles login successful

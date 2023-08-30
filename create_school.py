@@ -1,4 +1,12 @@
-def create_school():
+import logging
+from contdb import connect_to_database
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s', filename='log.log', datefmt='%Y-%m-%d %H:%M:%S')
+
+# Get the database connection.
+db = connect_to_database()
+
+def create_school(first_name):
   """Creates a school and returns its name."""
 
   # Ask the user for the name of the school.
@@ -10,19 +18,27 @@ def create_school():
   school_type = input("Enter the gender arrangement of the school: ") # Mixed day, mixed boaders, monosex day, monosex boarders, college_style
   learners_type = input("Enter the type of leaners at school: ") # conventional, special
 
-  print(f'School Name: {school_name}')
-  print(f'County: {school_County}')
-  print(f'School Level: {school_level}')
-  print(f'Type of School: {school_type}')
-  print(f'Type of Learners: {learners_type}')
-  print(f'School Address: {school_addr}')
-  print(f'School Phone: {school_phone}')
+  # Log school creation info
+  logging.info("Created school: {}".format(school_name))
+
+  # Create a cursor object.
+  cursor = db.cursor()
+
+  # school_name = create_school(first_name)
+  cursor.execute(f"INSERT INTO schools (school_name, school_County, school_level, school_type, learners_type, school_addr, school_phone) VALUES (%s, %s, %s, %s, %s, %s, %s)", (school_name, school_County, school_level, school_type, learners_type, school_addr, school_phone))
+  db.commit()
+
+    # Log database commit for school creation info
+  logging.info(
+      "Created school: {} by user {} commited to database".format(school_name, first_name))
+
+  print("School created successfully.")
 
 
   # Return the school name.
   return school_name
 
-def create_classes():
+def create_classes(first_name):
   """Creates a class and returns its name."""
 
   # Ask the user for the name of the school.
@@ -43,14 +59,19 @@ def create_classes():
     stream_names.append(stream_name)
   print(stream_names)
 
+  # logging.info("Created class: {} and its streams".format(class_name))
+  logging.info(
+      "Created class: {} by user {} and its streams".format(class_name, first_name))
+
+
   # Return the school name.
   return class_name
 
 
-if __name__ == "__main__":
-  # # Create the school.
-  # school_name = create_school()
+# if __name__ == "__main__":
+#   # # Create the school.
+#   school_name = create_school()
 
-  # # Print the name of the school.
-  # print(f"School Name: {school_name}.")
-  create_classes()
+#   # # Print the name of the school.
+#   # print(f"School Name: {school_name}.")
+#   create_classes()

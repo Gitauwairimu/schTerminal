@@ -3,8 +3,14 @@ import psycopg2
 from contdb import connect_to_database
 from sms import send_sms
 import hashlib
+from create_school import create_school, create_classes
 # from notifications import send_slack_message
 from notifications import send_slack_message
+
+import logging
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s', filename='log.log', datefmt='%Y-%m-%d %H:%M:%S')
+
 
 # Read the .env file: Get variablesss .
 with open(".env") as f:
@@ -53,46 +59,9 @@ def get_role():
 
   return role
 
-# def get_role():
-#   """Displays a menu of roles for user registration."""
-
-#   print("Welcome to the roles menu.")
-#   print("Choose Role of user to be registered?")
-#   print('                                            ')
-#   print('                                            ')
-
-
-#   print("1. Administrator.")
-#   print("2. Student")
-#   print("3. Teaching Staff.")
-#   print("4. Support Staff.")
-#   print("5. Quit.")
-
-#   print('                                            ')
-
-#   role = input("Enter Role: ")
-#   roles = {
-#     "1": "administrator",
-#     "2": "student",
-#     "3": "teaching staff",
-#     "4": "support staff"
-#   }
-
-
-#   while role not in roles.keys():
-#     print("Invalid role. Please choose a valid role.")
-#     # role = input("Enter Role: ")
-# #   print(roles.keys())
-# #   role = role.keys
-
-#   return role
-
-
 
 def create_user(role):
   """Creates a new user with the given role."""
-  print(role)
-
 
   # Get the user's details.
   first_name = input(f"Enter the {role}'s first name: ")
@@ -390,8 +359,10 @@ def login_admin():
 
   if count == 0:
     # No administrator exists, so register one.
+    logging.info("No system administrator exists. User prompt to become admin")
+
     print('                                                      ')
-    print("No administrator exists. Registering as the administrator...")
+    print("No administrator exists. Registering first user as the administrator...")
     print('                                                      ')
     first_name = input("Enter the admin's first name: ")
     surname = input("Enter the admin's surname: ")
@@ -407,16 +378,41 @@ def login_admin():
                  (first_name, surname, email, password, role, admin_mobile))
     db.commit()
 
+    #Get info of admin from db for notification
+    # Execute the query.
+    cursor.execute("""
+    SELECT admin_no, admin_mobile, first_name FROM administrators ORDER BY admin_no DESC LIMIT 1;
+    """)
+
+    # Fetch the results of the query.
+    results = cursor.fetchone()
+
+    # Use the values from the results.
+    admin_no = results[0]
+    admin_mobile = results[1]
+    first_name = results[2]
+
+
+    # Send admin's number for first login
+    # send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
+    logging.info("sent sms to admin")
+
     # Check if the school exists.
     cursor.execute(f"SELECT COUNT(*) FROM schools;")
     count = cursor.fetchone()[0]
 
     if count == 0:
+      logging.info("School doesn't exist. Prompt to create school")
+      print('                            ')
+      print('No school exists. Create one')
+      print('                            ')
       # No school exists, so create one.
-      school_name = input("Enter the school's name: ")
-      cursor.execute(f"INSERT INTO schools (name) VALUES (%s)", (school_name,))
-      db.commit()
-      print("School created successfully.")
+      school_name = create_school(first_name)
+      # school_name = input("Enter the school's name: ")
+      # school_name = create_school(first_name)
+      # cursor.execute(f"INSERT INTO schools (name) VALUES (%s)", (school_name,))
+      # db.commit()
+      # print("School created successfully.")
 
     print("Administrator registered successfully.")
     print(".........................................")
@@ -433,7 +429,11 @@ def login():
 
   # Check if the administrator exists.
   cursor.execute(f"SELECT * FROM administrators WHERE admin_no = {admin_no};")
+
   row = cursor.fetchone()
+
+  # Get the administrator's first name.
+  first_name = row[2]
 
   if row is None:
     # The administrator does not exist.
@@ -445,6 +445,7 @@ def login():
 
   # Check if the password matches.
   entered_password = input("Enter the administrator's password: ")
+  print("                                      ")
 
     # Hash the new_password
   entered_password = hashlib.sha256(entered_password.encode()).hexdigest()
@@ -453,12 +454,14 @@ def login():
   if password == entered_password:
     # The password matches. The administrator is logged in.
     print("The administrator is logged in.")
+    logging.info("User {} login successful".format(first_name))
     print('                                  ')
     # Display the admins_menu.
     admin_menu()
   else:
     # The password does not match.
     print("The password does not match.")
+    logging.info("Failed login for user {}".format(first_name))
 
 def delete_user():
   """Edits an existing user in the database."""
@@ -558,28 +561,9 @@ def view_all_users():
   print ('                                         ')
 
 
-
-# if __name__ == "__main__":
-  # Get the user ID of the user to edit.
-  # user_id = input("Enter the user ID: ")
-  # user_id = input("Enter ID of user to edit: ")
-
-  # Edit the user.
-  # edit_user(user_id)
-
-
-
 def user():
   # Get the role of the user.
   role = get_role()
 
   # Create a new user with the given role.
   create_user(role)
-
-  # Get all data from the database and print it in the terminal.
-  # get_all_data()
-
-# if __name__ == "__main__":
-# #   # Call the main function.
-#   user()
-# # edit_user(user_id)
