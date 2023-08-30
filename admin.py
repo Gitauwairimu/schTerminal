@@ -6,7 +6,7 @@ import hashlib
 from create_school import create_school, create_classes
 # from notifications import send_slack_message
 from notifications import send_slack_message
-
+import re
 import logging
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s', filename='log.log', datefmt='%Y-%m-%d %H:%M:%S')
@@ -23,6 +23,13 @@ db = connect_to_database()
 
 # # Create a cursor object.
 cursor = db.cursor()
+
+email_regex = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]+$'
+
+def validate_email(email):
+  if not re.match(email_regex, email):
+    return False
+  return True
 
 def get_role():
   """Displays a menu of roles for user registration."""
@@ -67,8 +74,13 @@ def create_user(role):
   first_name = input(f"Enter the {role}'s first name: ")
   surname = input(f"Enter the {role}'s surname name: ")
   email = input(f"Enter the {role}'s email address: ")
-  password = input(f"Enter the {role}'s password: ")
 
+  # Validate email
+  while not validate_email(email):
+    print("Invalid email address.")
+    email = input("Enter correct admin's email address: ")
+
+  password = input(f"Enter the {role}'s password: ")
   # Hash the password.
   password = hashlib.sha256(password.encode()).hexdigest()
 
@@ -227,6 +239,11 @@ def edit_student():
   # Hash the new_password
   new_password = hashlib.sha256(new_password.encode()).hexdigest()
 
+  # Validate email
+  while not validate_email(new_email):
+    print("Invalid email address.")
+    new_email = input("Enter correct admin's email address: ")
+
   sql = f"UPDATE students SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE student_adm = {student_adm}"
   cursor.execute(sql)
 
@@ -264,6 +281,11 @@ def edit_teacher():
 
   # Hash the new_password
   new_password = hashlib.sha256(new_password.encode()).hexdigest()
+  
+  # Validate email
+  while not validate_email(new_email):
+    print("Invalid email address.")
+    new_email = input("Enter correct admin's email address: ")
 
 
   sql = f"UPDATE teachers SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}' WHERE CAST(identity_number AS integer) = {identity_number}"
@@ -300,6 +322,10 @@ def edit_admin():
   # Hash the new_password
   new_password = hashlib.sha256(new_password.encode()).hexdigest()
 
+  # Validate email
+  while not validate_email(new_email):
+    print("Invalid email address.")
+    new_email = input("Enter correct admin's email address: ")
 
   sql = f"UPDATE administrators SET first_name = '{new_first_name}', surname = '{new_surname}', email = '{new_email}', password = '{new_password}', admin_mobile = '{new_admin_mobile}' WHERE admin_no = {admin_no}"
   cursor.execute(sql)
@@ -367,6 +393,12 @@ def login_admin():
     first_name = input("Enter the admin's first name: ")
     surname = input("Enter the admin's surname: ")
     email = input("Enter the admin's email address: ")
+    
+    # Validate email
+    while not validate_email(email):
+      print("Invalid email address.")
+      email = input("Enter correct admin's email address: ")
+    
     password = input("Enter the admin's password: ")
     admin_mobile = input("Enter the admin's mobile phone number: ")
     role = 'administrator'
@@ -392,10 +424,15 @@ def login_admin():
     admin_mobile = results[1]
     first_name = results[2]
 
+    try:
+      if role == "1":
+      send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
+      logging.info("sent sms to admin")
+    except:
+      print("Error sending SMS.")
+      logging.info("Error sending SMS")
 
-    # Send admin's number for first login
-    # send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
-    logging.info("sent sms to admin")
+    # The rest of the code...
 
     # Check if the school exists.
     cursor.execute(f"SELECT COUNT(*) FROM schools;")
@@ -408,11 +445,6 @@ def login_admin():
       print('                            ')
       # No school exists, so create one.
       school_name = create_school(first_name)
-      # school_name = input("Enter the school's name: ")
-      # school_name = create_school(first_name)
-      # cursor.execute(f"INSERT INTO schools (name) VALUES (%s)", (school_name,))
-      # db.commit()
-      # print("School created successfully.")
 
     print("Administrator registered successfully.")
     print(".........................................")
