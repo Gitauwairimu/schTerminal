@@ -68,10 +68,3 @@ def create_classes(first_name):
   return class_name
 
 
-# if __name__ == "__main__":
-#   # # Create the school.
-#   school_name = create_school()
-
-#   # # Print the name of the school.
-#   # print(f"School Name: {school_name}.")
-#   create_classes()
