@@ -13,4 +13,5 @@ log/*
 
 .gitignore
 .env
+.log
 .*
