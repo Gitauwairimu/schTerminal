@@ -15,4 +15,3 @@ log/*
 .env
 .log
 log.log
-.*
