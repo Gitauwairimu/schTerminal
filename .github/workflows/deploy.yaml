@@ -20,11 +20,21 @@ jobs:
       #   run: pip install flake8
       # - name: Lint Python code
       #   run: flake8 .
+      
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Install pytest
+  #       run: pip install pytest
+  #     - name: Run unit tests
+  #       run: pytest
 
-  test:
+  Docker Build and Push:
     runs-on: ubuntu-latest
     steps:
-      - name: Install pytest
-        run: pip install pytest
-      - name: Run unit tests
-        run: pytest
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Build Docker image
+        run: docker build . -t my-python-app
+      - name: Push Docker image
+        run: docker push my-python-app
