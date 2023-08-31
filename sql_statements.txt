@@ -1,0 +1,81 @@
+CREATE TABLE exam_results (
+  id SERIAL PRIMARY KEY,
+  student_id INT NOT NULL,
+  exam_score INT NOT NULL,
+  course VARCHAR(255) NOT NULL,
+  exam_type VARCHAR(255) NOT NULL,
+  date_taken DATE NOT NULL,
+  class_tutor VARCHAR(255)
+);
+
+
+
+CREATE TABLE lecture_halls (
+  lecture_hall_name varchar(255) NOT NULL,
+  capacity integer NOT NULL,
+  location varchar(255) NOT NULL
+);
+ 
+CREATE TABLE class_schedule (
+  id SERIAL PRIMARY KEY,
+  class_name VARCHAR(255),
+  class_tutor VARCHAR(255),
+  class_days VARCHAR(255),
+  start_date DATE,
+  end_date DATE,
+  time VARCHAR(255),
+  location VARCHAR(255)
+);
+
+
+
+  CREATE TABLE students (
+  student_adm INT NOT NULL DEFAULT nextval('student_adm_seq'),
+  first_name VARCHAR(255) NOT NULL,
+  surname VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(255) NOT NULL,
+  CONSTRAINT student_pk PRIMARY KEY (student_adm)
+);
+
+CREATE TABLE schools (
+  id serial PRIMARY KEY,
+  school_name varchar(255) NOT NULL,
+  school_addr varchar(255) NOT NULL,
+  school_county varchar(255) NOT NULL,
+  school_phone varchar(255) NOT NULL,
+  school_level varchar(255) NOT NULL,
+  school_type varchar(255) NOT NULL,
+  learners_type varchar(255) NOT NULL
+);
+
+
+CREATE TABLE administrators (
+  admin_no serial PRIMARY KEY,
+  first_name varchar(255) NOT NULL,
+  surname varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  admin_mobile VARCHAR(255),
+  role varchar(255) NOT NULL
+);
+
+CREATE TABLE teachers (
+  identity_number varchar(255) NOT NULL PRIMARY KEY,
+  first_name varchar(255) NOT NULL,
+  surname varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  role varchar(255) NOT NULL,
+  department varchar(255) NOT NULL
+);
+
+CREATE TABLE attendance (
+  id SERIAL PRIMARY KEY,
+  student_id INT NOT NULL,
+  class_name VARCHAR(255) NOT NULL,
+  attendance VARCHAR(255) NOT NULL,
+  date_attendance_taken DATE NOT NULL,
+  date_attendance_for DATE NOT NULL
+);
