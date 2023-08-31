@@ -40,6 +40,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Build Docker image
-        run: docker build . -t my-python-app
-      - name: Push Docker image
-        run: docker push my-python-app
+        run: docker build . -t gitauwairimu/my-python-app
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker push
+        run: |
+          docker push gitauwairimu/my-python-app

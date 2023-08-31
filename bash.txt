@@ -10,4 +10,4 @@ Alter postgres user (charles) password
 sudo -u postgres psql
 
 
-changeyourown db login detailsin database.cfg
+change your own db login details in database.cfg
