@@ -58,11 +58,11 @@ jobs:
   #         docker push gitauwairimu/cmd-python-app
   
   create_server:
-  defaults:
-  run:
-    working-directory: terraform
-  permissions:
-    pull-requests: write
+    defaults:
+    run:
+      working-directory: terraform
+  # permissions:
+  #   pull-requests: write
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
