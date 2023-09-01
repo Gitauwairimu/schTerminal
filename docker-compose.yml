@@ -18,13 +18,6 @@ services:
       - 5432:5432
     networks:
       - default
-    # The pre_build command will be executed before the image is built.
-    # pre_build:
-    #   - sh create_database.sh
-
-    # The command will be executed when the container starts.
-    # command:
-    #   - sh create_tables.sh
 
   my_image:
     image: app:latest
