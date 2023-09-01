@@ -63,18 +63,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v2
-    - name: Docker push
+    - name: Where tf files are
       run: |
         cd terraform
         ls
     - name: Terraform fmt
       id: fmt
       run: terraform fmt -check
-    - name: Terraform Init
+    - name: Where are we
       run: |
-          pwd
-          ls
-      # id: init
+        pwd
+        ls
+    - name: Terraform Init
+      id: init
       run: terraform init
     - name: Terraform Plan
       id: plan
