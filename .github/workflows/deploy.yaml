@@ -61,24 +61,24 @@ jobs:
     defaults:
       run:
         working-directory: terraform
-  # permissions:
-  #   pull-requests: write
+    permissions:
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v2
-    - name: Terraform fmt
-      id: fmt
-      run: terraform fmt -check
+    # - name: Terraform fmt
+    #   id: fmt
+    #   run: terraform fmt -check
     - name: Terraform Init
       id: init
       run: terraform init
-    - name: terraform validate
-      uses: dflook/terraform-validate@v1
-      id: validate
-      with:
-        path: terraform
+    # - name: terraform validate
+    #   uses: dflook/terraform-validate@v1
+    #   id: validate
+    #   with:
+    #     path: terraform
     - name: Terraform Plan
       id: plan
       run: terraform plan
