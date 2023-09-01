@@ -60,8 +60,12 @@ jobs:
   create_server:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v2
+    - name: Docker push
+      run: |
+        cd terraform
     - name: Terraform fmt
       id: fmt
       run: terraform fmt -check
