@@ -18,9 +18,9 @@ resource "aws_instance" "prometheus-server" {
   instance_type = "t2.micro"
   key_name      = "ados-us-east1"
 
-  vpc_security_group_ids = [
-    aws_security_group.prometheus-iac-sg.id
-  ]
+  #vpc_security_group_ids = [
+   # aws_security_group.prometheus-iac-sg.id
+  #]
   #   root_block_device {
   #     delete_on_termination = true
   #     iops = 150
@@ -33,7 +33,7 @@ resource "aws_instance" "prometheus-server" {
     Managed = "IaC"
   }
 
-
+ # depends_on = [aws_security_group.prometheus-iac-sg]
 }
 
 
