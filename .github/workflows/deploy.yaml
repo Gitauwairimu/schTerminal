@@ -58,15 +58,16 @@ jobs:
   #         docker push gitauwairimu/cmd-python-app
   
   create_server:
+  defaults:
+  run:
+    working-directory: terraform
+  permissions:
+    pull-requests: write
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v2
-    - name: Where tf files are
-      run: |
-        cd terraform
-        ls
     - name: Terraform fmt
       id: fmt
       run: terraform fmt -check
