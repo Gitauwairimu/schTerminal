@@ -44,49 +44,7 @@ def teacher_menu():
 
  # view and create functions
 
-# def post_class_schedule():
-#   """Allows the teacher to post the class schedule."""
-  
-#   # Get a list of all the lecture halls.
-#   lecture_halls = get_lecture_halls()
-
-#   # Prompt the teacher to choose a lecture hall.
-#   print("Select a lecture hall:")
-#   for index, lecture_hall in enumerate(lecture_halls):
-#     print(f"{index + 1}. {lecture_hall}")
-#   choice = int(input("Choose Lecture Hall: "))
-
-#   # Validate the input.
-#   if choice not in range(1, len(lecture_halls) + 1):
-#     raise ValueError("Invalid choice")
-
-#   # Get the selected lecture hall.
-#   location = (lecture_halls[choice - 1])[0]
-#   print(f"You have chosen: {location}")
-
-#   print("Enter the class name: ")
-#   class_name = input()
-
-#   print("Enter the class tutor: ")
-#   class_tutor = get_all_data()
-
-#   print("Enter days class held: ")
-#   class_days = input()
-
-#   print("Enter the start date: ")
-#   start_date = input()
-
-#   print("Enter the end date: ")
-#   end_date = input()
-
-#   # print("Enter the time: ")
-#   # time = input()
-#   print("Choose class time from list: ")
-#   print('                                 ')
-#   print(class_period())
-#   print('                                 ')
-#   time = class_time_periods()
-#   print('                                 ')
+  print('                               ')
 
 def view_all_students():
   """View all students in the database."""
@@ -177,14 +135,24 @@ def post_class_schedule():
   # Create a cursor to execute SQL statements.
   cursor = connection.cursor()
 
-  # Insert the data into the table.
-  # cursor.execute('INSERT INTO class_schedule (class_name, class_tutor, class_days, start_date, end_date, time, location) VALUES (?, ?, ?, ?, ?, ?, ?)',
-              # (class_name, class_tutor, class_days, start_date, end_date, time, location))
-  # Insert the data into the table.
+        # Create table first if it doesnt exist
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS class_schedule (
+        id SERIAL PRIMARY KEY,
+        class_name VARCHAR(255),
+        class_tutor VARCHAR(255),
+        class_days VARCHAR(255),
+        start_date DATE,
+        end_date DATE,
+        time VARCHAR(255),
+        location VARCHAR(255)
+       );
+     """)
+
   # Insert the data into the table.
   cursor.execute('INSERT INTO class_schedule (class_name, class_tutor, class_days, start_date, end_date, time, location) VALUES (%s, %s, %s, %s, %s, %s, %s)',
               (class_name,
-               class_tutor,
+                class_tutor,
                class_days,
                start_date,
                end_date,
@@ -198,20 +166,6 @@ def post_class_schedule():
 
   print('Class Saved in Database')
 
-
-
-# # save data to database
-
-#fetch all below data from database
-  # print(f"Class name: {class_name}")
-  # # print(f"Lecturer: {class_tutor}")
-  # # print(typeof(class_tutor)) 
-  # print(f"Location: {location} Hall")
-  # print(f"Class Days: Every {class_days} between {time}")
-  # print(f"Classes Start: {start_date} and End: {end_date}")
-  # print('                                 ')
-
-  # Post the class schedule to the database.
 
 def get_all_teachers():
   """Gets all teachers from the database."""
@@ -341,6 +295,19 @@ def create_assignment():
   # Create a cursor to execute SQL statements.
   cursor = connection.cursor()
 
+  # Create table if it doesn't exist
+  cursor.execute("""
+    CREATE TABLE IF NOT EXISTS assignments (
+      id serial PRIMARY KEY,
+      assignment_name varchar(255) NOT NULL,
+      assignment_description text NOT NULL,
+      due_date date NOT NULL,
+      submission_instructions text NOT NULL,
+      instructor varchar(255) NOT NULL,
+      course varchar(255) NOT NULL
+      );
+    """)
+
   # Insert the assignment details.
   cursor.execute('INSERT INTO assignments (assignment_name, assignment_description, due_date, submission_instructions, instructor, course) VALUES (%s, %s, %s, %s, %s, %s)',
               (assignment_name, assignment_description, due_date, submission_instructions, instructor, course))
@@ -453,6 +420,18 @@ def post_exam_results():
   else:
     print("Invalid exam name.")
     return
+
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS exam_results (
+       id SERIAL PRIMARY KEY,
+       student_id INT NOT NULL,
+       exam_score INT NOT NULL,
+       course VARCHAR(255) NOT NULL,
+       exam_type VARCHAR(255) NOT NULL,
+       date_taken DATE NOT NULL,
+       class_tutor VARCHAR(255)
+       );
+     """)
 
   # Insert the exam results into the database.
   cursor.execute('INSERT INTO exam_results (student_id, date_taken, exam_score, course, class_tutor, exam_type) VALUES (%s, %s, %s, %s, %s, %s)',

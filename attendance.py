@@ -82,6 +82,18 @@ def take_daily_attendance():
   # for student, attendance_status in attendance.items():
   #   cursor.execute('INSERT INTO attendance (student_id, attendance, date_attendance_for, class_name, date_attendance_taken) VALUES (%s, %s, %s, %s, %s)',
   #                 (student, attendance_status, date_attendance_for, class_name, date_attendance_taken))
+  
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS attendance (
+          id SERIAL PRIMARY KEY,
+          student_id INT NOT NULL,
+          class_name VARCHAR(255) NOT NULL,
+          attendance VARCHAR(255) NOT NULL,
+          date_attendance_taken DATE NOT NULL,
+          date_attendance_for DATE NOT NULL
+       );
+     """)
+
   student_id = None
 
   for student, attendance_status in attendance.items():

@@ -97,6 +97,20 @@ def create_user(role):
 
   admin_no = None
   if role == "administrator":
+
+    # Create table first if it doesnt exist
+    cursor.execute("""
+      CREATE TABLE IF NOT EXISTS administrators (
+      admin_no serial PRIMARY KEY,
+      first_name varchar(255) NOT NULL,
+      surname varchar(255) NOT NULL,
+      email varchar(255) NOT NULL,
+      password varchar(255) NOT NULL,
+      admin_mobile VARCHAR(255),
+      role varchar(255) NOT NULL
+    );
+  """)
+    
     # Insert the user's data into the table.
     admin_mobile = input("Enter the admin's mobile phone number: ")
 
@@ -104,16 +118,56 @@ def create_user(role):
                  (first_name, surname, email, admin_mobile, password, role))
 
   elif role == "student":
+
+    # Create table first if it doesnt exist
+    cursor.execute("""
+    CREATE SEQUENCE IF NOT EXISTS student_adm_seq
+      INCREMENT BY 1
+      MINVALUE 1
+      MAXVALUE 99999999
+      START 5000
+      CACHE 1;
+  """)
+
+
+    
+    # Create table first if it doesnt exist
+    cursor.execute("""
+      CREATE TABLE IF NOT EXISTS students (
+      student_adm INT NOT NULL DEFAULT nextval('student_adm_seq'),
+      first_name VARCHAR(255) NOT NULL,
+      surname VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      role VARCHAR(255) NOT NULL,
+      CONSTRAINT student_pk PRIMARY KEY (student_adm)
+    );
+  """)
+
   # Insert the user's data into the table.
     cursor.execute(f"INSERT INTO {table_name} (first_name, surname, email, password, role) VALUES (%s, %s, %s, %s, %s)",
                  (first_name, surname, email, password, role))
     
    
   elif role == "teaching staff":
-    # role = 'teacher'
+    
+    # Create table first if it doesnt exist
+    cursor.execute("""
+      CREATE TABLE IF NOT EXISTS teachers (
+      identity_number varchar(255) NOT NULL PRIMARY KEY,
+      first_name varchar(255) NOT NULL,
+      surname varchar(255) NOT NULL,
+      email varchar(255) NOT NULL,
+      password varchar(255) NOT NULL,
+      role varchar(255) NOT NULL,
+      department varchar(255) NOT NULL
+    );
+  """)
+
     identity_number = input("Enter the teacher's National Identity Number: ")
     identity_number = int(identity_number)
     department = input("Enter the teacher's department: ")
+
     cursor.execute(f"INSERT INTO {table_name} (first_name, surname, email, password, role, identity_number, department) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                  (first_name, surname, email, password, role, identity_number, department))
 
@@ -200,6 +254,15 @@ def register_lecture_hall():
 
   # Prompt for hall location
   location = input("Enter the location of hall: ")
+
+  # Create table first if it doesnt exist
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS lecture_halls (
+      lecture_hall_name varchar(255) NOT NULL,
+      capacity integer NOT NULL,
+      location varchar(255) NOT NULL
+       );
+     """)
 
   # Create a SQL statement to insert the lecture hall into the database.
   sql = f"""
@@ -379,6 +442,20 @@ def edit_user():
   print("User edited")
 
 def login_admin():
+
+    # Create table first if it doesnt exist
+  cursor.execute("""
+    CREATE TABLE IF NOT EXISTS administrators (
+    admin_no serial PRIMARY KEY,
+    first_name varchar(255) NOT NULL,
+    surname varchar(255) NOT NULL,
+    email varchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
+    admin_mobile VARCHAR(255),
+    role varchar(255) NOT NULL
+      );
+     """)
+    
   # Check if the administrator exists.
   cursor.execute(f"SELECT COUNT(*) FROM administrators WHERE admin_no >= 1;")
   count = cursor.fetchone()[0]
@@ -441,6 +518,23 @@ def login_admin():
 
     if count == 0:
       logging.info("School doesn't exist. Prompt to create school")
+      
+      # Create table first if it doesnt exist
+      cursor.execute("""
+      CREATE TABLE IF NOT EXISTS schools (
+      id serial PRIMARY KEY,
+      school_name varchar(255) NOT NULL,
+      school_addr varchar(255) NOT NULL,
+      school_county varchar(255) NOT NULL,
+      school_phone varchar(255) NOT NULL,
+      school_level varchar(255) NOT NULL,
+      school_type varchar(255) NOT NULL,
+      learners_type varchar(255) NOT NULL
+       );
+     """)
+      
+      logging.info("Created school's table database schema")
+
       print('                            ')
       print('No school exists. Create one')
       print('                            ')
