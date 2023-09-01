@@ -13,7 +13,7 @@ services:
     environment:
       - POSTGRES_USER=charles
       - POSTGRES_PASSWORD=Guide147
-      - POSTGRES_DB=school
+      - POSTGRES_DB=schools
     ports:
       - 5432:5432
     networks:
