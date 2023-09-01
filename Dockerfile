@@ -5,4 +5,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["python", "role_menu.py"]
+CMD ["python3", "role_menu.py"]
