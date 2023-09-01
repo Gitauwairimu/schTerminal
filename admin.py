@@ -119,7 +119,7 @@ def create_user(role):
 
   elif role == "student":
 
-    # Create table first if it doesnt exist
+    # Create sequence if it doesnt exist
     cursor.execute("""
     CREATE SEQUENCE IF NOT EXISTS student_adm_seq
       INCREMENT BY 1
@@ -197,6 +197,10 @@ def create_user(role):
   if role == "1":
     send_sms(to=admin_mobile, body=f"Welcome {first_name}, Use admin number: {admin_no} to login. Account created.")
 
+  print('                                            ')
+  print(f'User {first_name} successfully registered')
+  print('                                            ')
+  admin_menu()
 
 def get_all_data():
   """Gets all data from the database and prints it in the terminal."""
@@ -242,6 +246,9 @@ def admin_menu():
     print("Invalid choice")
     admin_menu()
 
+  print('                                            ')
+  admin_menu()
+
 
 def register_lecture_hall():
   """Registers a new lecture hall in the database."""
@@ -280,6 +287,9 @@ def register_lecture_hall():
 
   print('                                               ')
 
+  print('                                               ')
+  admin_menu()
+
 def edit_student():
   """Edits an existing student in the database."""
 
@@ -316,7 +326,6 @@ def edit_student():
 
   # Print a message to confirm that the student was edited.
   print("Student edited")
-
 
 def edit_teacher():
   """Edits an existing teacher in the database."""
@@ -362,6 +371,7 @@ def edit_teacher():
   print("Teacher details updated")
 
 
+
 def edit_admin():
   """Edits an existing administrator in the database."""
 
@@ -399,7 +409,6 @@ def edit_admin():
 
   # Print a message to confirm that the administrator was edited.
   print("Administrator edited")
-
 
 def edit_user():
   """Edits an existing user in the database."""
@@ -439,7 +448,10 @@ def edit_user():
     print('You must choose from existing categories')
 
  
-  print("User edited")
+  print("User successfully edited")
+
+  print('                                               ')
+  admin_menu()
 
 def login_admin():
 
@@ -592,6 +604,8 @@ def login():
   else:
     # The administrator does not exist.
     print("The administrator does not exist. Bye!")
+    print('                                               ')
+    login()
 
   return
 
@@ -655,9 +669,34 @@ def delete_admin():
 
 
 def view_all_users():
+  # Create administrators table if doesnt exist
+  cursor.execute("""
+    CREATE TABLE IF NOT EXISTS administrators (
+    admin_no serial PRIMARY KEY,
+    first_name varchar(255) NOT NULL,
+    surname varchar(255) NOT NULL,
+    email varchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
+    admin_mobile VARCHAR(255),
+    role varchar(255) NOT NULL
+      );
+     """)
   # Get all administrators.
   cursor.execute(f"SELECT * FROM administrators;")
   administrators = cursor.fetchall()
+
+  # Create teachers table if doesnt exist
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS teachers (
+      identity_number varchar(255) NOT NULL PRIMARY KEY,
+      first_name varchar(255) NOT NULL,
+      surname varchar(255) NOT NULL,
+      email varchar(255) NOT NULL,
+      password varchar(255) NOT NULL,
+      role varchar(255) NOT NULL,
+      department varchar(255) NOT NULL
+    );
+  """)
 
   # Get all teachers.
   cursor.execute(f"SELECT * FROM teachers;")
@@ -666,6 +705,33 @@ def view_all_users():
   # Get all support staff.
   # cursor.execute(f"SELECT * FROM support_staff;")
   # support_staff = cursor.fetchall()
+
+  # Create students sequence if doesnt exist
+      # Create sequence if it doesnt exist
+  cursor.execute("""
+    CREATE SEQUENCE IF NOT EXISTS student_adm_seq
+      INCREMENT BY 1
+      MINVALUE 1
+      MAXVALUE 99999999
+      START 5000
+      CACHE 1;
+  """)
+
+
+    # Create students table first if it doesnt exist
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS students (
+      student_adm INT NOT NULL DEFAULT nextval('student_adm_seq'),
+      first_name VARCHAR(255) NOT NULL,
+      surname VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      role VARCHAR(255) NOT NULL,
+      CONSTRAINT student_pk PRIMARY KEY (student_adm)
+    );
+  """)
+
+
 
   # Get all students.
   cursor.execute(f"SELECT * FROM students;")

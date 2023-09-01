@@ -55,6 +55,31 @@ def view_all_students():
   # Create a cursor to execute SQL statements.
   cursor = connection.cursor()
 
+  # Create sequence if it doesnt exist
+  cursor.execute("""
+    CREATE SEQUENCE IF NOT EXISTS student_adm_seq
+      INCREMENT BY 1
+      MINVALUE 1
+      MAXVALUE 99999999
+      START 5000
+      CACHE 1;
+  """)
+
+
+    # Create students table first if it doesnt exist
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS students (
+      student_adm INT NOT NULL DEFAULT nextval('student_adm_seq'),
+      first_name VARCHAR(255) NOT NULL,
+      surname VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      role VARCHAR(255) NOT NULL,
+      CONSTRAINT student_pk PRIMARY KEY (student_adm)
+    );
+  """)
+
+
   # Get all students.
   cursor.execute('SELECT student_adm, first_name, surname, email, role FROM students')
   students = cursor.fetchall()
@@ -135,7 +160,7 @@ def post_class_schedule():
   # Create a cursor to execute SQL statements.
   cursor = connection.cursor()
 
-        # Create table first if it doesnt exist
+  # Create class_schedule table first if it doesnt exist
   cursor.execute("""
       CREATE TABLE IF NOT EXISTS class_schedule (
         id SERIAL PRIMARY KEY,
@@ -295,7 +320,7 @@ def create_assignment():
   # Create a cursor to execute SQL statements.
   cursor = connection.cursor()
 
-  # Create table if it doesn't exist
+  # Create assignments table if it doesn't exist
   cursor.execute("""
     CREATE TABLE IF NOT EXISTS assignments (
       id serial PRIMARY KEY,
@@ -329,6 +354,19 @@ def view_all_assignments():
 
   # Create a cursor to execute SQL statements.
   cursor = connection.cursor()
+
+  # Create table if it doesn't exist
+  cursor.execute("""
+    CREATE TABLE IF NOT EXISTS assignments (
+      id serial PRIMARY KEY,
+      assignment_name varchar(255) NOT NULL,
+      assignment_description text NOT NULL,
+      due_date date NOT NULL,
+      submission_instructions text NOT NULL,
+      instructor varchar(255) NOT NULL,
+      course varchar(255) NOT NULL
+      );
+    """)
 
   # Get all the assignments.
   cursor.execute('SELECT * FROM assignments')
@@ -365,6 +403,20 @@ def post_exam_results():
 
   # Create a cursor to execute SQL statements.
   cursor = connection.cursor()
+
+    # Create class_schedule table first if it doesnt exist
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS class_schedule (
+        id SERIAL PRIMARY KEY,
+        class_name VARCHAR(255),
+        class_tutor VARCHAR(255),
+        class_days VARCHAR(255),
+        start_date DATE,
+        end_date DATE,
+        time VARCHAR(255),
+        location VARCHAR(255)
+       );
+     """)
 
   # Get all the courses from the database.
   cursor.execute('SELECT class_name FROM class_schedule')

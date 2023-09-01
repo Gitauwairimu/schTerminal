@@ -35,6 +35,21 @@ def take_daily_attendance():
 
   cursor = connection.cursor()
 
+
+  # Create class_schedule table first if it doesnt exist
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS class_schedule (
+        id SERIAL PRIMARY KEY,
+        class_name VARCHAR(255),
+        class_tutor VARCHAR(255),
+        class_days VARCHAR(255),
+        start_date DATE,
+        end_date DATE,
+        time VARCHAR(255),
+        location VARCHAR(255)
+       );
+     """)
+
   cursor.execute('SELECT class_name FROM class_schedule')
   courses = cursor.fetchall()
 
@@ -78,11 +93,7 @@ def take_daily_attendance():
   # Create a cursor to execute SQL statements.
   cursor = connection.cursor()
 
-  # # Insert the data into the table.
-  # for student, attendance_status in attendance.items():
-  #   cursor.execute('INSERT INTO attendance (student_id, attendance, date_attendance_for, class_name, date_attendance_taken) VALUES (%s, %s, %s, %s, %s)',
-  #                 (student, attendance_status, date_attendance_for, class_name, date_attendance_taken))
-  
+  # Create attendance table if it doesnt exist.
   cursor.execute("""
       CREATE TABLE IF NOT EXISTS attendance (
           id SERIAL PRIMARY KEY,
@@ -131,6 +142,20 @@ def view_attendance():
 
   cursor = connection.cursor()
 
+    # Create class_schedule table first if it doesnt exist
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS class_schedule (
+        id SERIAL PRIMARY KEY,
+        class_name VARCHAR(255),
+        class_tutor VARCHAR(255),
+        class_days VARCHAR(255),
+        start_date DATE,
+        end_date DATE,
+        time VARCHAR(255),
+        location VARCHAR(255)
+       );
+     """)
+
   cursor.execute('SELECT class_name FROM class_schedule')
   courses = cursor.fetchall()
 
@@ -160,17 +185,11 @@ def view_attendance():
 
   date_attendance_for_str = str(date_attendance_for)
 
-  # cursor.execute('SELECT student_id, class_name, attendance, date_attendance_taken FROM attendance WHERE date_attendance_for = %s',
-  #                 (date_attendance_for_str,))
 
   cursor.execute('SELECT student_id, class_name, attendance, date_attendance_taken FROM attendance WHERE date_attendance_for = %s AND class_name = %s',
                   (date_attendance_for_str, class_name))
 
-  # cursor.execute('SELECT student_id, class_name, attendance, date_attendance_taken FROM attendance WHERE date_attendance_for = %s',
-  #                 (date_attendance_for))
 
-  # cursor.execute('SELECT student_id, class_name, attendance, date_attendance_taken FROM attendance WHERE date_attendance_for = %s AND class_name = %s',
-  #                 (date_attendance_for, class_name))
   attendance = cursor.fetchall()
 
   # Close the connection to the database.
@@ -201,6 +220,18 @@ def update_attendance():
 
   # Create a cursor to execute SQL statements.
   cursor = connection.cursor()
+
+    # Create attendance table if it doesnt exist.
+  cursor.execute("""
+      CREATE TABLE IF NOT EXISTS attendance (
+          id SERIAL PRIMARY KEY,
+          student_id INT NOT NULL,
+          class_name VARCHAR(255) NOT NULL,
+          attendance VARCHAR(255) NOT NULL,
+          date_attendance_taken DATE NOT NULL,
+          date_attendance_for DATE NOT NULL
+       );
+     """)
 
   # Update the attendance.
   cursor.execute('UPDATE attendance SET attendance = %s WHERE student_id = %s AND date_attendance_for = %s',

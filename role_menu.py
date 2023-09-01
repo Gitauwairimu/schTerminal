@@ -22,7 +22,9 @@ def role_menu():
   print('                                            ')
   
   # Get the user's choice.
-  choice = input("Enter your choice (1-4): ")
+  choice = input('Enter your choice (1-4): ')
+  if choice == '':
+    choice = '1'
 
   print('                                            ')
 
