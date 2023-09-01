@@ -27,7 +27,7 @@ services:
     #   - sh create_tables.sh
 
   my_image:
-    image: my_image:latest
+    image: app:latest
     depends_on:
       - postgres
     networks:
