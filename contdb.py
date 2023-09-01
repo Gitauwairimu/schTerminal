@@ -16,6 +16,7 @@ def connect_to_database():
   # Get the database connection string.
   # connection_string = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@localhost/school"
   connection_string = "postgresql://charles:Guide147@localhost/school"
+  # connection_string = "postgresql://charles:Guide147@postgres/school"
   # Connect to the database.
   connection = psycopg2.connect(connection_string)
   if not connection.closed:
