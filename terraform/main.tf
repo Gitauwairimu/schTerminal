@@ -33,6 +33,7 @@ resource "aws_instance" "prometheus-server" {
     Managed = "IaC"
   }
 
-  depends_on = [aws_security_group.prometheus-iac-sg]
+
 }
+
 
