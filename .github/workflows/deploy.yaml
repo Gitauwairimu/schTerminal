@@ -62,7 +62,7 @@ jobs:
                 
       - name: Update docker-compose.yml
         run: |
-          sed -i "s|image: .*|image: gitauwairimu/cmd-python-app:${GITHUB_RUN_ID}|g" docker-compose.yml
+          sed -i "s|image: gitauwairimu.*|image: gitauwairimu/cmd-python-app:${GITHUB_RUN_ID}|g" docker-compose.yml
   
       - name: Cat docker-compose.yml
         run: |
