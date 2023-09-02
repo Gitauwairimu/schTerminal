@@ -90,15 +90,15 @@ jobs:
   create_server2:
     defaults:
       run:
-        working-directory: terraform
+        working-directory: ansible
     permissions:
       pull-requests: write
     runs-on: ubuntu-latest
-    needs: build
+    needs: create_server
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - uses: hashicorp/setup-terraform@v2
+    - name: Confirm Inventory
+      run: cat ansible/inventory.txt
+
 
   
 
