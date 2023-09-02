@@ -92,7 +92,7 @@ jobs:
       run:
         working-directory: ansible
     permissions:
-      contents: read-all
+      contents: write
     runs-on: ubuntu-latest
     needs: Build
     steps:
