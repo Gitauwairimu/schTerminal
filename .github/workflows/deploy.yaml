@@ -111,7 +111,7 @@ jobs:
       # aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text > inventory.txt
 
     - name: Confirm Inventory is Updated
-      run: cat ansible/inventory.txt
+      run: cat inventory.txt
   
 
   # Update Inventory:
