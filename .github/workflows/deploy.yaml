@@ -97,7 +97,7 @@ jobs:
     needs: create_server
     steps:
     - name: Confirm Inventory
-      run: cat ansible/inventory.txt
+      run: run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text > ansible/inventory.txt
 
 
   
