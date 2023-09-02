@@ -85,3 +85,21 @@ jobs:
     - name: Terraform Apply
       id: apply
       run: terraform apply -auto-approve
+
+  
+
+  Update Inventory:
+    defaults:
+      run:
+        working-directory: ansible
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    - name: Terraform Init
+      run: aws ec2 describe-instances \
+          --query 'Reservations[*].Instances[*].PublicIpAddress' \
+          --output text >> ansible/inventory.txt
+    
+    - name: Confirm Inventory is Updated
+      run: cat ansible/inventory.txt
