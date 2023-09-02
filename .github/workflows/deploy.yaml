@@ -96,6 +96,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: Build
     steps:
+    - name: Create ansible directory
+      run: mkdir ansible
+    - name: Ansible Inventory file
+      run: touch inventory.txt
     - name: Diagnosis
       run: pwd
 
