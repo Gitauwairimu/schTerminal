@@ -102,8 +102,8 @@ jobs:
       run: touch inventory.txt
     - name: Install AWS CLI
       run: sudo apt install awscli
-    - name: Get AWS credentials
-      run: aws configure
+    # - name: Get AWS credentials
+    #   run: aws configure
     - name: Confirm Inventory
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text > inventory.txt
       # aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text > inventory.txt
