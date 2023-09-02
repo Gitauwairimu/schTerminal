@@ -88,16 +88,16 @@ jobs:
   #     run: terraform apply -auto-approve
   
   create_server2:
-    defaults:
-      run:
-        working-directory: /home/runner/work/schTerminal/ansible
+    # defaults:
+    #   run:
+    #     working-directory: /home/runner/work/schTerminal/ansible
     permissions:
       contents: write
     runs-on: ubuntu-latest
     needs: Build
     steps:
-    # - name: Create ansible directory
-    #   run: mkdir ansible
+    - name: Create ansible directory
+      run: mkdir ansible
     - name: Ansible Inventory file
       run: touch inventory.txt
     - name: Diagnosis
