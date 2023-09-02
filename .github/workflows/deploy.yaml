@@ -96,6 +96,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: create_server
     steps:
+    - name: Diagnosis
+      run: |
+        pwd
+        ls
+
     - name: Confirm Inventory
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text > inventory.txt
 
