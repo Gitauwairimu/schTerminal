@@ -97,9 +97,7 @@ jobs:
     needs: Build
     steps:
     - name: Diagnosis
-      run: |
-        pwd
-        ls
+      run: ls
 
     - name: Confirm Inventory
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text > inventory.txt
