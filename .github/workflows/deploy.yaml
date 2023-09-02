@@ -92,8 +92,7 @@ jobs:
       run:
         working-directory: ansible
     permissions:
-      contents: read|write|none
-      # read-all|write-all
+      contents: read-all|write-all
     runs-on: ubuntu-latest
     needs: Build
     steps:
