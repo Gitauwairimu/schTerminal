@@ -65,8 +65,8 @@ jobs:
           sed -i "s|image: .*|image: gitauwairimu/cmd-python-app:${GITHUB_RUN_ID}|g" docker-compose.yml
   
       - name: Cat docker-compose.yml
-            run: |
-              cat docker-compose.yml
+        run: |
+          cat docker-compose.yml
       
 
   provision_server:
