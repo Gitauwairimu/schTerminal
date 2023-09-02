@@ -12,6 +12,12 @@
         name: docker-compose
         state: present
 
+    - name: Copy docker-compose file
+      copy:
+        source: /ansible/run-app-docker-compose.yml
+        dest: /ansible/run-app-docker-compose.yml
+        mode: 0644
+
     - name: Run docker-compose up
       docker_compose:
         project_name: my_project
