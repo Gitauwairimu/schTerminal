@@ -20,7 +20,7 @@ services:
       - default
 
   my_image:
-    image: app:latest
+    image: gitauwairimu/cmd-python-app
     depends_on:
       - postgres
     networks:
