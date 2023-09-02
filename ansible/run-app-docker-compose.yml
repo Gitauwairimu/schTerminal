@@ -1,0 +1,18 @@
+---
+- hosts: servers
+  become: yes
+  tasks:
+    - name: Update the operating system
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Run docker-compose up
+      docker_compose:
+        project_name: my_project
+        command: up -d
