@@ -92,8 +92,7 @@ jobs:
       run:
         working-directory: ansible
     permissions:
-      pull-requests: write
-      workflows: write
+      read-all|write-all
     runs-on: ubuntu-latest
     needs: Build
     steps:
