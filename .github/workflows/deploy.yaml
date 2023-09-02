@@ -93,7 +93,6 @@ jobs:
         working-directory: ansible
     permissions:
       pull-requests: write
-      push: write
       workflows: write
     runs-on: ubuntu-latest
     needs: Build
