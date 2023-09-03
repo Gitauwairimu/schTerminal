@@ -19,7 +19,7 @@ resource "aws_instance" "prometheus-server" {
   key_name      = "terminal-app-github"
 
   vpc_security_group_ids = [
-    aws_security_group.prometheus-iac-sg.id
+    aws_security_group.terminal-iac-sg.id
   ]
   #   root_block_device {
   #     delete_on_termination = true
@@ -28,19 +28,19 @@ resource "aws_instance" "prometheus-server" {
   #     volume_type = "gp2"
   #  }
   tags = {
-    Name    = "PrometheusServer"
+    Name    = "TerminalServer"
     OS      = "ubuntu"
     Managed = "IaC"
   }
 
-  depends_on = [aws_security_group.prometheus-iac-sg]
+  depends_on = [aws_security_group.terminal-iac-sg]
 }
 
 
-resource "aws_security_group" "prometheus-iac-sg" {
-  name = "prometheus-iac-sg"
-  description = "Security group for Prometheus server"
- # vpc_id = var.vpc_id
+resource "aws_security_group" "terminal-iac-sg" {
+  name = "terminal-iac-sg"
+  description = "Security group for terminal server"
+ # vpc_id = vpc-08aa5435941a55127
 
   ingress {
     from_port = 22
