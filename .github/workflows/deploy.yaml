@@ -135,8 +135,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Directory
-      run: cat inventory.txt
+    - name: playbook
+      run: ansible-playbook run-app-docker-compose.yml
 
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
