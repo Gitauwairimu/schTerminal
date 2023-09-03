@@ -127,7 +127,7 @@ jobs:
       uses: dawidd6/action-ansible-playbook@v2
       with:
         # Required, playbook filepath
-        playbook: run-app-docker-compose.yml
+        playbook: ansible/run-app-docker-compose.yml
         # Optional, directory where playbooks live
         # directory: ./
         # Optional, SSH private key
