@@ -81,6 +81,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v2
+    - name: Pass ssh Key
+      run: echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > github-terminal-app.pem
     # - name: Terraform fmt
     #   id: fmt
     #   run: terraform fmt -check
@@ -113,7 +115,7 @@ jobs:
       run: sudo apt install awscli
     # - name: Get AWS credentials
     #   run: aws configure
-      - name: Set Inventory Group
+    - name: Set Inventory Group
       run: echo '[docker-postgres]' >> inventory.txt
     - name: Get Inventory
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text > inventory.txt
