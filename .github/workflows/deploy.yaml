@@ -127,12 +127,14 @@ jobs:
   run-ansible-playbbok:
     defaults:
       run:
-        working-directory: /home/runner/work
+        working-directory: ansible
     permissions:
       contents: write
     runs-on: ubuntu-latest
     needs: ansible-inventory
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
     - name: Directory
       run: pwd
     - name: Directory
