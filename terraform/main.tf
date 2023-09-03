@@ -18,9 +18,9 @@ resource "aws_instance" "prometheus-server" {
   instance_type = "t2.micro"
   key_name      = "terminal-app-github"
 
-  #vpc_security_group_ids = [
-   # aws_security_group.prometheus-iac-sg.id
-  #]
+  vpc_security_group_ids = [
+    aws_security_group.prometheus-iac-sg.id
+  ]
   #   root_block_device {
   #     delete_on_termination = true
   #     iops = 150
@@ -33,7 +33,26 @@ resource "aws_instance" "prometheus-server" {
     Managed = "IaC"
   }
 
- # depends_on = [aws_security_group.prometheus-iac-sg]
+  depends_on = [aws_security_group.prometheus-iac-sg]
 }
 
 
+resource "aws_security_group" "prometheus-iac-sg" {
+  name = "prometheus-iac-sg"
+  description = "Security group for Prometheus server"
+  vpc_id = var.vpc_id
+
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
