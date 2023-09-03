@@ -127,7 +127,7 @@ jobs:
   run-ansible-playbbok:
     defaults:
       run:
-        working-directory: /home/runner/work/schTerminal
+        working-directory: /home/runner/work
     permissions:
       contents: write
     runs-on: ubuntu-latest
