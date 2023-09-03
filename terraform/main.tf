@@ -40,7 +40,7 @@ resource "aws_instance" "prometheus-server" {
 resource "aws_security_group" "prometheus-iac-sg" {
   name = "prometheus-iac-sg"
   description = "Security group for Prometheus server"
-  vpc_id = var.vpc_id
+ # vpc_id = var.vpc_id
 
   ingress {
     from_port = 22
