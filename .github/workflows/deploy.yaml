@@ -83,6 +83,11 @@ jobs:
     - uses: hashicorp/setup-terraform@v2
     - name: Pass ssh Key
       run: echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > terminal-app-github.pem
+    - name: Upload ssh Key
+      uses: actions/upload-artifact@v3
+      with:
+        name: sshKey
+        path: terminal-app-github.pem
     # - name: Terraform fmt
     #   id: fmt
     #   run: terraform fmt -check
@@ -144,10 +149,11 @@ jobs:
       with:
         name: inventory
         path: ansible
-    # - name: Copy Inventory
-    #   run: cp ../inventory.txt .
-    - name: Read Inventory
-      run: cat inventory.txt
+    - name: Download ssh Key
+      uses: actions/download-artifact@v3
+      with:
+        name: sshKey
+        path: ansible
     - name: playbook
       run: ansible-playbook run-app-docker-compose.yml
 
