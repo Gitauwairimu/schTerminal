@@ -82,7 +82,7 @@ jobs:
       uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v2
     - name: Pass ssh Key
-      run: echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > github-terminal-app.pem
+      run: echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > terminal-app-github.pem
     # - name: Terraform fmt
     #   id: fmt
     #   run: terraform fmt -check
