@@ -148,6 +148,6 @@ jobs:
         # Required, playbook filepath
         playbook: run-app-docker-compose.yml
         # Optional, directory where playbooks live
-        # directory: ./
+        directory: ./
         # Optional, SSH private key
         key: ${{ secrets.SSH_KEY }}
