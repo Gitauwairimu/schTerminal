@@ -123,7 +123,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: inventory
-        path: ansible/inventory.txt
+        path: inventory.txt
     - name: Read Inventory
       run: cat inventory.txt
 
@@ -143,6 +143,8 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: inventory
+    - name: Copy Inventory
+      run: cat inventory.txt
     - name: Read Inventory
       run: cat inventory.txt
     - name: playbook
