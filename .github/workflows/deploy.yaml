@@ -123,3 +123,12 @@ jobs:
     - name: Read Inventory
       run: cat inventory.txt
   
+    - name: Run playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        # Required, playbook filepath
+        playbook: run-app-docker-compose.yml
+        # Optional, directory where playbooks live
+        # directory: ./
+        # Optional, SSH private key
+        key: ${{ secrets.SSH_KEY }}
