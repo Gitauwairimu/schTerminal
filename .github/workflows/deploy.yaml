@@ -143,8 +143,9 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: inventory
-    - name: Copy Inventory
-      run: cat inventory.txt
+        path: ansible
+    # - name: Copy Inventory
+    #   run: cp ../inventory.txt .
     - name: Read Inventory
       run: cat inventory.txt
     - name: playbook
