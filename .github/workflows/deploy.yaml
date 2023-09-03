@@ -124,7 +124,7 @@ jobs:
       run: cat inventory.txt
 
     - name: Read Inventory
-      run: ls
+      run: cd ansible
   
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
