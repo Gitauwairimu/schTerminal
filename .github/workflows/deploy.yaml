@@ -116,7 +116,7 @@ jobs:
     # - name: Get AWS credentials
     #   run: aws configure
     - name: Set Inventory Group
-      run: echo '[docker-postgres]' > inventory.txt
+      run: echo '[dockerpostgres]' > inventory.txt
     - name: Get Inventory
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text >> inventory.txt
     - name: Upload inventory.txt
