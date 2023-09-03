@@ -136,11 +136,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Directory
-      run: pwd
-    - name: Directory
-      run: ls
-    - name: Directory
-      run: tree
+      run: cat inventory.txt
 
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
