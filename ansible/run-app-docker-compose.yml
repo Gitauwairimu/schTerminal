@@ -1,5 +1,5 @@
 ---
-- hosts: servers
+- hosts: [docker-postgres]
   become: yes
   tasks:
     - name: Update the operating system
