@@ -88,6 +88,8 @@ jobs:
       with:
         name: sshKey
         path: terminal-app-github.pem
+    - name: Read Inventory
+      run: cat terminal-app-github.pem
     # - name: Terraform fmt
     #   id: fmt
     #   run: terraform fmt -check
@@ -165,4 +167,4 @@ jobs:
     #     # Optional, directory where playbooks live
     #     directory: ./
     #     # Optional, SSH private key
-    #     key: ${{ secrets.SSH_KEY }}
+    #     key: ${{ secrets.SSH_KEY }}git commit --allow-empty -m "Empty commit
