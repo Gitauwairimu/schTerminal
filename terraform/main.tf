@@ -13,6 +13,14 @@ provider "aws" {
   # secret_key = "$secret_key"
 }
 
+
+# Configure the S3 backend
+backend "s3" {
+  bucket = "terminal-terraform-state-bucket"
+  key = "terraform.tfstate"
+  region = "us-east-1"
+}
+
 resource "aws_instance" "prometheus-server" {
   ami           = "ami-08d4ac5b634553e16" #ubuntu 20.04 LTS // us-east-1
   instance_type = "t2.micro"
