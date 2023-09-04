@@ -24,14 +24,14 @@ provider "aws" {
 }
 
 # Configure the S3 backend
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "terminal-terraform-state-bucket"
-  force_destroy = true
-  region = "us-east-1"
-  versioning {
-    enabled = true
-  }
-}
+#resource "aws_s3_bucket" "terraform_state" {
+ # bucket = "terminal-terraform-state-bucket"
+  #force_destroy = true
+  #region = "us-east-1"
+  #versioning {
+   # enabled = true
+  #}
+#}
 
 
 resource "aws_instance" "prometheus-server" {
