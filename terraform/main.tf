@@ -15,7 +15,7 @@ provider "aws" {
 
 # Configure the S3 backend
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = bucket = "terminal-terraform-state-bucket"
+  bucket = "terminal-terraform-state-bucket"
   key = "terraform.tfstate"
   force_destroy = true
   region = "us-east-1"
