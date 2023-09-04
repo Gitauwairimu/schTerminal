@@ -83,6 +83,9 @@ jobs:
     - uses: hashicorp/setup-terraform@v2
     - name: Pass ssh Key
       run: echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > terminal-app-github.pem
+    
+    - name: Key Exists
+      run: ls
     - name: Upload ssh Key
       uses: actions/upload-artifact@v3
       with:
