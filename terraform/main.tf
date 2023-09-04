@@ -5,6 +5,16 @@ terraform {
       version = ">= 4.0"
     }
   }
+
+  required_version = ">= 1.0.0"
+
+  backend "s3" {
+      # Replace this with your bucket name!
+      bucket = "terminal-terraform-state-bucket"
+      key = "terraform.tfstate"
+      region= "us-east-1"
+      encrypt        = true
+     }
 }
 
 provider "aws" {
@@ -16,7 +26,6 @@ provider "aws" {
 # Configure the S3 backend
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "terminal-terraform-state-bucket"
-  key = "terraform.tfstate"
   force_destroy = true
   region = "us-east-1"
   versioning {
