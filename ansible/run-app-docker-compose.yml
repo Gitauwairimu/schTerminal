@@ -7,6 +7,11 @@
       file:
         state: absent
         path: "/var/lib/apt/lists/*"
+    - name: Run "apt-get update" 
+      become: yes
+      apt:
+        update_cache=true
+
     - name: Update the operating system
       apt:
         update_cache: yes
