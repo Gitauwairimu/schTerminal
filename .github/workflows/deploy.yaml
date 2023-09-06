@@ -152,7 +152,12 @@ jobs:
       run: |
         IP_ADDRESS=$(cat ip.txt)
     - name: Read Inventory
-      run: cat inventory.txt
+      run: cat ip.txt
+    - name: Copy the docker-compose file
+      run: |
+        rsync -av docker-compose ubuntu@$IP_ADDRESS:~/ \
+          --ssh-key <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r')
+
     - name: Setting up SSH key
       run: |
         echo "${{ secrets.SSH_KEY }}" > terminal-app-github.pem
@@ -164,7 +169,7 @@ jobs:
         switches: -avzr --delete
         path: docker-compose.yml
         remote_path: ~/
-        remote_host: IP_ADDRESS
+        remote_host: $IP_ADDRESS
         remote_user: ubuntu
         remote_key: ${{ secrets.SSH_KEY }}
     # - name: Setting up SSH key
