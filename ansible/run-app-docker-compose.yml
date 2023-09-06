@@ -3,6 +3,10 @@
   become: yes
   
   tasks:
+    - name: Remove apt lock file
+      file:
+        state: absent
+        path: "/var/lib/apt/lists/*"
     - name: Update the operating system
       apt:
         update_cache: yes
