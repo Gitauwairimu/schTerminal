@@ -146,6 +146,10 @@ jobs:
       with:
         name: inventory
         path: ansible
+    - name: Setting up SSH key
+      run: |
+        echo "${{ secrets.SSH_KEY }}" > terminal-app-github.pem
+        chmod 600 terminal-app-github.pem 
     - name: Ip file
       run: touch ip.txt
     - name: Install AWS CLI
@@ -160,7 +164,7 @@ jobs:
     - name: Copy the docker-compose file
       run: |
         rsync -av docker-compose ubuntu@$IP_ADDRESS:~/ \
-          --ssh-key <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r')
+          --ssh-key terminal-app-github.pem
 
     - name: Setting up SSH key
       run: |
