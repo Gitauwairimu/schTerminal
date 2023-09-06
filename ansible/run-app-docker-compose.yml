@@ -11,19 +11,15 @@
     - ansible.builtin.apt:
         clean: yes
       become: yes
-    - name: Run "apt-get update" 
-      become: yes
-      apt:
-        update_cache=true
 
-    - name: Update the operating system
-      apt:
-        update_cache: yes
-
-    # - name: Install Docker Compose
+    # - name: Update the operating system
     #   apt:
-    #     name: docker-compose
-    #     state: present
+    #     update_cache: yes
+
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
 
     # - name: Copy docker-compose file
     #   copy:
