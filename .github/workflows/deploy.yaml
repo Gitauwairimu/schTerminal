@@ -163,8 +163,7 @@ jobs:
       run: cat ip.txt
     - name: Copy the docker-compose file
       run: |
-        rsync -av docker-compose ubuntu@$IP_ADDRESS:~/ \
-          --ssh-key terminal-app-github.pem
+        ssh ubuntu@$IP_ADDRESS -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose ~/
 
     - name: Setting up SSH key
       run: |
