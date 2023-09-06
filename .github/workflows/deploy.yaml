@@ -146,6 +146,20 @@ jobs:
       with:
         name: inventory
         path: ansible
+    - name: Get Inventory
+      run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text >> ip.txt
+    - name: Get the IP address
+      run: |
+        IP_ADDRESS=$(cat ip.txt)
+    - name: rsync deployments
+      uses: burnett01/rsync-deployments@6.0.0
+      with:
+        switches: -avzr --delete
+        path: docker-compose.yml
+        remote_path: ~/
+        remote_host: IP_ADDRESS
+        remote_user: ubuntu
+        remote_key: ${{ secrets.SSH_KEY }}
     - name: Setting up SSH key
       run: |
         echo "${{ secrets.SSH_KEY }}" > terminal-app-github.pem
