@@ -146,6 +146,10 @@ jobs:
       with:
         name: inventory
         path: ansible
+    - name: Ip file
+      run: touch ip.txt
+    - name: Install AWS CLI
+      run: sudo apt install awscli
     - name: Get Inventory
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text >> ip.txt
     - name: Get the IP address
