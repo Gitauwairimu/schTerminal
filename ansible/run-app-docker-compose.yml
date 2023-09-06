@@ -23,7 +23,7 @@
 
     - name: Copy docker-compose file
       copy:
-        source: /ansible/run-app-docker-compose.yml
+        src: /ansible/run-app-docker-compose.yml
         dest: /ansible/run-app-docker-compose.yml
         mode: 0644
     - command:
