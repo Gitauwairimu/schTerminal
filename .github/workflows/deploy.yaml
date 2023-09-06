@@ -158,7 +158,8 @@ jobs:
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text >> ip.txt
     - name: Get the IP address
       run: |
-        IP_ADDRESS=$(cat ip.txt)
+        IP_ADDRESS=$(read -r IP_ADDRESS < ip.txt)
+        # IP_ADDRESS=$(cat ip.txt)
     - name: Read Inventory
       run: cat $IP_ADDRESS
     # - name: Copy the docker-compose file
