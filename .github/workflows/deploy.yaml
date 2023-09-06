@@ -168,7 +168,7 @@ jobs:
     - name: Copy the docker-compose file
       uses: actions/ssh@v3
       with:
-        hostname: <server_ip>
+        hostname: $IP_ADDRESS
         username: ubuntu
         key: ${{ secrets.SSH_KEY }}
         script: |
