@@ -23,19 +23,11 @@ provider "aws" {
   # secret_key = "$secret_key"
 }
 
-# Configure the S3 backend
-#resource "aws_s3_bucket" "terraform_state" {
- # bucket = "terminal-terraform-state-bucket"
-  #force_destroy = true
-  #region = "us-east-1"
-  #versioning {
-   # enabled = true
-  #}
-#}
 
 
 resource "aws_instance" "prometheus-server" {
-  ami           = "ami-08d4ac5b634553e16" #ubuntu 20.04 LTS // us-east-1
+#  ami           = "ami-08d4ac5b634553e16" #ubuntu 20.04 LTS // us-east-1
+  ami           = "ami-053b0d53c279acc90" #22.04 LTS, amd64 // us-east-1
   instance_type = "t2.micro"
   key_name      = "terminal-app-github"
 
