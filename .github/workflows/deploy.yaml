@@ -83,9 +83,6 @@ jobs:
     - uses: hashicorp/setup-terraform@v2
     - name: Pass ssh Key
       run: echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > terminal-app-github.pem
-    
-    - name: Key Exists
-      run: cat *.pem
     - name: Upload ssh Key
       uses: actions/upload-artifact@v3
       with:
@@ -154,11 +151,16 @@ jobs:
       with:
         name: inventory
         path: ansible
-    - name: Download ssh Key
-      uses: actions/download-artifact@v3
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
       with:
-        name: sshKey
-        path: ansible
+        key: ${{ secrets.SSH_KEY }}
+        known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+    # - name: Download ssh Key
+    #   uses: actions/download-artifact@v3
+    #   with:
+    #     name: sshKey
+    #     path: ansible
     - name: playbook
       run: ansible-playbook run-app-docker-compose.yml
 
