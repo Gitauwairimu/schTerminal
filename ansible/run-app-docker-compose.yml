@@ -1,11 +1,11 @@
 ---
 - hosts: dockerpostgres
   become: yes
+  
   tasks:
     - name: Update the operating system
       apt:
         update_cache: yes
-        upgrade: yes
 
     - name: Install Docker Compose
       apt:
