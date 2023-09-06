@@ -16,16 +16,20 @@
     #   apt:
     #     update_cache: yes
 
-    - name: Install Docker Compose
-      apt:
-        name: docker-compose
-        state: present
+    # - name: Install Docker Compose
+    #   apt:
+    #     name: docker-compose
+    #     state: present
 
-    # - name: Copy docker-compose file
-    #   copy:
-    #     source: /ansible/run-app-docker-compose.yml
-    #     dest: /ansible/run-app-docker-compose.yml
-    #     mode: 0644
+    - name: Copy docker-compose file
+      copy:
+        source: /ansible/run-app-docker-compose.yml
+        dest: /ansible/run-app-docker-compose.yml
+        mode: 0644
+    - command:
+        cmd: cat "/ansible/run-app-docker-compose.yml"
+    - command:
+        cmd: ls
 
     # - name: Run docker-compose up
     #   docker_compose:
