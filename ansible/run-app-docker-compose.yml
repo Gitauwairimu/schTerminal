@@ -9,7 +9,7 @@
         state: absent
         path: "/var/lib/apt/lists/*"
     - ansible.builtin.apt:
-      clean: yes
+        clean: yes
       become: yes
     - name: Run "apt-get update" 
       become: yes
