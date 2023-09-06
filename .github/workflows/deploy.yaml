@@ -165,19 +165,18 @@ jobs:
     #   run: |
     #     ssh ubuntu@$IP_ADDRESS -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose.yml ~/
 
-    - name: Copy the docker-compose file
-      uses: actions/ssh@v3
-      with:
-        hostname: $IP_ADDRESS
-        username: ubuntu
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          rsync -av docker-compose.yml ~/
+    # - name: Copy the docker-compose file
+    #   uses: actions/ssh@v3
+    #   with:
+    #     hostname: $IP_ADDRESS
+    #     username: ubuntu
+    #     key: ${{ secrets.SSH_KEY }}
+    #     script: |
+    #       rsync -av docker-compose.yml ~/
 
-    # - name: Setting up SSH key
-    #   run: |
-    #     echo "${{ secrets.SSH_KEY }}" > terminal-app-github.pem
-    #     chmod 600 terminal-app-github.pem 
+    - name: Copy Docker Compose file to remote
+      run: |
+        scp -i terminal-app-github.pem docker-compose.yml ubuntu@$IP_ADDRESS:~/ 
 
     - name: rsync deployments
       uses: burnett01/rsync-deployments@6.0.0
