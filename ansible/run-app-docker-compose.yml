@@ -3,6 +3,9 @@
   become: yes
   
   tasks:
+    - ansible.builtin.apt:
+      clean: yes
+      become: yes
     - name: Remove apt lock file
       file:
         state: absent
