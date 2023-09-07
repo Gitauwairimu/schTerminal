@@ -162,16 +162,16 @@ jobs:
     #     echo "IP_ADDRESS=ls" >> $IP_ADDRESS
     - name: Get the IP address
       run: |
-        IP_ADDRESS=$(cat ip.txt)
+        IP_ADDRESS=(readlink ip.txt)
     # IP_ADDRESS=$(ls)
     # IP_ADDRESS=$(aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output json | jq -r '.[0]')
     # IP_ADDRESS=$( aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text )
     # IP_ADDRESS=$(cat ip.txt)
     - name: Read Inventory
-      run: cat ${{ env.IP_ADDRESS }}
+      run: cat $IP_ADDRESS
     - name: Copy the docker-compose file
       run: |
-        ssh ubuntu@${{ env.IP_ADDRESS }} -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose.yml ~/
+        ssh ubuntu@$IP_ADDRESS -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose.yml ~/
 
     # - name: Copy the docker-compose file
     #   uses: actions/ssh@v3
