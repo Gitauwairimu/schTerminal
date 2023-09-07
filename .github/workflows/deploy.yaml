@@ -189,7 +189,7 @@ jobs:
 
     - name: Copy Docker Compose file to remote
       run: |
-        scp -i terminal-app-github.pem docker-compose.yml ubuntu@$IP:~/ 
+        scp -i terminal-app-github.pem docker-compose.yml ubuntu@"$IP":~/ 
 
     # - name: rsync deployments
     #   uses: burnett01/rsync-deployments@6.0.0
