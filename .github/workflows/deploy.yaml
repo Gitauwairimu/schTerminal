@@ -165,7 +165,7 @@ jobs:
     # echo "FOO=$(git status)" >> $GITHUB_ENV
     - name: Ping IP address
       run: |
-        ping -c 1 ${{ env.IP }}
+        ping -c 1 $IP
     # - name: Get the IP address
     #   run: |
     #     IP_ADDRESS=(readlink ip.txt)
@@ -174,7 +174,7 @@ jobs:
     # IP_ADDRESS=$( aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text )
     # IP_ADDRESS=$(cat ip.txt)
     - name: Read Inventory
-      run: cat $IP_ADDRESS
+      run: cat $IP
     - name: Copy the docker-compose file
       run: |
         ssh ubuntu@$IP_ADDRESS -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose.yml ~/
