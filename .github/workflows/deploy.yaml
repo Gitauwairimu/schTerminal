@@ -162,10 +162,7 @@ jobs:
     - name: Cat IP address
       run: |
         echo "IP=$(cat ip.txt)"
-    # echo "FOO=$(git status)" >> $GITHUB_ENV
-    - name: Ping IP address
-      run: |
-        ping -c 1 $IP
+
     # - name: Get the IP address
     #   run: |
     #     IP_ADDRESS=(readlink ip.txt)
@@ -177,7 +174,7 @@ jobs:
       run: cat $IP
     - name: Copy the docker-compose file
       run: |
-        ssh ubuntu@$IP_ADDRESS -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose.yml ~/
+        ssh ubuntu@$IP -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose.yml ~/
 
     # - name: Copy the docker-compose file
     #   uses: actions/ssh@v3
