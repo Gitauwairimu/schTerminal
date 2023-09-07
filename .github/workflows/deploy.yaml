@@ -195,9 +195,11 @@ jobs:
     #   run: |
     #     IP=$(cat ip.txt)
     #     ssh-keyscan $IP
-    #     scp -i terminal-app-github.pem docker-compose.yml ubuntu@$IP:~/ 
+    #     scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml ubuntu@$IP:~/ 
 
     - name: rsync deployments
+      run: |
+        IP=$(cat ip.txt)
       uses: burnett01/rsync-deployments@6.0.0
       with:
         switches: -avzr --delete
