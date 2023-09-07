@@ -161,8 +161,8 @@ jobs:
         cat ip.txt
     - name: Cat IP address
       run: |
-        echo "IP=$(cat ip.txt)"
-
+        echo "cat ip.txt" >> $IP
+    # echo "IP=$(cat ip.txt)"
     # - name: Get the IP address
     #   run: |
     #     IP_ADDRESS=(readlink ip.txt)
