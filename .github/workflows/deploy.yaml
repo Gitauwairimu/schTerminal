@@ -156,13 +156,19 @@ jobs:
       run: sudo apt install awscli
     - name: Get Inventory
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text >> ip.txt
+    - name: Cat IP address
+      run: |
+        cat ip.txt
+    - name: Cat IP address
+      run: |
+        cat ip.txt >> "$IP_ADDRESS"
 
     - name: Ping IP address
       run: |
-        ping -c 1 $(cat ip.txt)
-    - name: Get the IP address
-      run: |
-        IP_ADDRESS=(readlink ip.txt)
+        ping -c 1 $IP_ADDRESS
+    # - name: Get the IP address
+    #   run: |
+    #     IP_ADDRESS=(readlink ip.txt)
     # IP_ADDRESS=$(ls)
     # IP_ADDRESS=$(aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output json | jq -r '.[0]')
     # IP_ADDRESS=$( aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text )
