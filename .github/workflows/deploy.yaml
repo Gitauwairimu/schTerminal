@@ -161,7 +161,9 @@ jobs:
         cat ip.txt
     - name: Cat IP address
       run: |
-        echo "cat ip.txt" >> $IP
+        IP=$(cat ip.txt)
+        echo "The IP address is $IP"
+
     # echo "IP=$(cat ip.txt)"
     # - name: Get the IP address
     #   run: |
