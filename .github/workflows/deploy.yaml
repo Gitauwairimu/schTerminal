@@ -158,7 +158,7 @@ jobs:
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text >> ip.txt
     - name: Get the IP address
       run: |
-        IP_ADDRESS="$( cat ip.txt )"
+        IP_ADDRESS="$( aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text )"
     # IP_ADDRESS=$(cat ip.txt)
     - name: Read Inventory
       run: cat $IP_ADDRESS
