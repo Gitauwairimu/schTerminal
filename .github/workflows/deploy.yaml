@@ -161,11 +161,11 @@ jobs:
         cat ip.txt
     - name: Cat IP address
       run: |
-        cat ip.txt >> "$IP_ADDRESS"
-
+        echo "IP=$(cat ip.txt)" >> $IP_ADDRESS
+    # echo "FOO=$(git status)" >> $GITHUB_ENV
     - name: Ping IP address
       run: |
-        ping -c 1 $IP_ADDRESS
+        ping -c 1 ${{ env.IP }}
     # - name: Get the IP address
     #   run: |
     #     IP_ADDRESS=(readlink ip.txt)
