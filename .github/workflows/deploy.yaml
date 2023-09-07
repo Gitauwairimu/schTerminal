@@ -159,10 +159,10 @@ jobs:
     - name: Cat IP address
       run: |
         cat ip.txt
-    - name: Cat IP address
-      run: |
-        IP=$(cat ip.txt)
-        echo "The IP address is $IP"
+    # - name: Cat IP address
+    #   run: |
+    #     IP=$(cat ip.txt)
+    #     echo "The IP address is $IP"
 
     # echo "IP=$(cat ip.txt)"
     # - name: Get the IP address
@@ -174,6 +174,7 @@ jobs:
     # IP_ADDRESS=$(cat ip.txt)
     - name: Read Inventory
       run: |
+        IP=$(cat ip.txt)
         echo "The IP address is $IP"
         ping -c 1 $IP
 
@@ -192,6 +193,7 @@ jobs:
 
     - name: Copy Docker Compose file to remote
       run: |
+        IP=$(cat ip.txt)
         scp -i terminal-app-github.pem docker-compose.yml ubuntu@"$IP":~/ 
 
     # - name: rsync deployments
