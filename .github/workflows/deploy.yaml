@@ -159,10 +159,10 @@ jobs:
     - name: Cat IP address
       run: |
         cat ip.txt
-    # - name: Cat IP address
-    #   run: |
-    #     IP=$(cat ip.txt)
-    #     echo "The IP address is $IP"
+    - name: Cat IP address
+      run: |
+        IP=$(cat ip.txt)
+        echo "The IP address is $IP"
 
     # echo "IP=$(cat ip.txt)"
     # - name: Get the IP address
@@ -172,11 +172,11 @@ jobs:
     # IP_ADDRESS=$(aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output json | jq -r '.[0]')
     # IP_ADDRESS=$( aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text )
     # IP_ADDRESS=$(cat ip.txt)
-    - name: Read Inventory
-      run: |
-        IP=$(cat ip.txt)
-        echo "The IP address is $IP"
-        ping -c 1 $IP
+    # - name: Read Inventory
+    #   run: |
+    #     IP=$(cat ip.txt)
+    #     echo "The IP address is $IP"
+    #     ping -c 1 $IP
 
     # - name: Copy the docker-compose file
     #   run: |
