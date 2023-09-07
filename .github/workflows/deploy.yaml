@@ -206,7 +206,7 @@ jobs:
     #     remote_host: $IP
     #     remote_user: ubuntu
     #     remote_key: ${{ secrets.SSH_KEY }}
-    # - name: copy file via ssh key
+    - name: copy file via ssh key
       uses: appleboy/scp-action@v0.1.4
       with:
         host: $IP
