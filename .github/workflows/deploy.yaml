@@ -171,7 +171,7 @@ jobs:
       run: cat ${IP_ADDRESS}
     - name: Copy the docker-compose file
       run: |
-        ssh ubuntu@$IP_ADDRESS -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose.yml ~/
+        ssh ubuntu@${IP_ADDRESS} -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose.yml ~/
 
     # - name: Copy the docker-compose file
     #   uses: actions/ssh@v3
