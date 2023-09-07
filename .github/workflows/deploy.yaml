@@ -175,7 +175,7 @@ jobs:
     - name: Read Inventory
       run: |
         echo "The IP address is $IP"
-        echo "$IP"
+        ping -c 1 $IP
 
     # - name: Copy the docker-compose file
     #   run: |
