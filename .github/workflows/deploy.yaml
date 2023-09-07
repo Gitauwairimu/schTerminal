@@ -161,7 +161,7 @@ jobs:
         cat ip.txt
     - name: Cat IP address
       run: |
-        echo "IP=$(cat ip.txt)" >> $IP_ADDRESS
+        echo "IP=$(cat ip.txt)"
     # echo "FOO=$(git status)" >> $GITHUB_ENV
     - name: Ping IP address
       run: |
