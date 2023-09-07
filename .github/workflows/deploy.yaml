@@ -156,9 +156,12 @@ jobs:
       run: sudo apt install awscli
     - name: Get Inventory
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text >> ip.txt
+    env:
+      IP_ADDRESS: ls
     - name: Get the IP address
       run: |
-        echo "IP_ADDRESS=ls" >> $IP_ADDRESS
+         IP_ADDRESS
+    # echo "IP_ADDRESS=ls" >> $IP_ADDRESS
     # IP_ADDRESS=$(ls)
     # IP_ADDRESS=$(aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output json | jq -r '.[0]')
     # IP_ADDRESS=$( aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text )
