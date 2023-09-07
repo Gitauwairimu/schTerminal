@@ -158,11 +158,12 @@ jobs:
       run: aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text >> ip.txt
     - name: Get the IP address
       run: |
-        IP_ADDRESS=$(aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output json | jq -r '.[0]')
+        IP_ADDRESS=$(ls)
+      # IP_ADDRESS=$(aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output json | jq -r '.[0]')
     # IP_ADDRESS=$( aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text )
     # IP_ADDRESS=$(cat ip.txt)
     - name: Read Inventory
-      run: cat $IP_ADDRESS
+      run: $IP_ADDRESS
     # - name: Copy the docker-compose file
     #   run: |
     #     ssh ubuntu@$IP_ADDRESS -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose.yml ~/
