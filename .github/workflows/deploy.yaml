@@ -190,6 +190,10 @@ jobs:
     #     key: ${{ secrets.SSH_KEY }}
     #     script: |
     #       rsync -av docker-compose.yml ~/
+    - name: where am I?
+      run: |
+        ls
+        pwd
 
     - name: Copy Docker Compose file to remote
       run: |
@@ -208,10 +212,19 @@ jobs:
     #     remote_host: $IP
     #     remote_user: ubuntu
     #     remote_key: ${{ secrets.SSH_KEY }}
+    
+    # - name: Get dynamic IP address
+    #   uses: actions/get-dynamic-ip@v1
+    #   id: ip
+
+    # - name: Store dynamic IP address in secret
+    #   run: |
+    #     echo "${{ steps.ip.outputs.ip_address }}" | tee -a ${{ secrets.IP_ADDRESS }}
+
     # - name: copy file via ssh key
     #   uses: appleboy/scp-action@v0.1.4
     #   with:
-    #     host: $IP
+    #     host: ${{ secrets.IP_ADDRESS }}
     #     username: ubuntu
     #     port: 22
     #     key: ${{ secrets.SSH_KEY }}
