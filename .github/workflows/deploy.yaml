@@ -228,14 +228,13 @@ jobs:
     #   # run: ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
     - uses: webfactory/ssh-agent@v0.7.0
-        with:
-            ssh-private-key: ${{ secrets.SSH_KEY }}
+      with:
+        ssh-private-key: ${{ secrets.SSH_KEY }}
 
     - name: Run ssh bash script command
       run: |
         IP=$(cat ip.txt)
         chmod +x prep.sh
-        echo $SSH_AUTH_SOCK
         ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
     # ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
