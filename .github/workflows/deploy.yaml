@@ -214,6 +214,10 @@ jobs:
     #   run: |
     #     ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
+    - name: prep.sh in this dir?
+      run: |
+        ls
+
     - name: Run bash in Remote
       run: |
         IP=$(cat ip.txt)
