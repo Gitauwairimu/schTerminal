@@ -231,13 +231,6 @@ jobs:
 
 
 
-    - name: Trial Script
-      run: |
-        IP=$(cat ip.txt)
-        chmod +x prep.sh
-        touch ~/.ssh/known_hosts
-        ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
-
     # - name: Execute bash Script
     #   run: |
     #     IP=$(cat ip.txt)
@@ -255,90 +248,19 @@ jobs:
     #     chmod +x prep.sh
     #     ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
-    # - name: Run bash script
-    #   env:
-    #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-    #   run: |
-    #     IP=$(cat ip.txt)
-    #     chmod +x prep.sh
-    #     ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
-    
-    # - uses: tanmancan/action-setup-ssh-agent-key@1.0.0
+ 
+    # - name: executing remote ssh commands using ssh key
+    #   uses: appleboy/ssh-action@v1.0.0
     #   with:
-    #     ssh-auth-sock: /tmp/my_auth.sock
-    #     ssh-private-key: ${{ secrets.SSH_KEY }}
-    #   # Key for a first server
-    #   # run: ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
-
-    # - uses: webfactory/ssh-agent@v0.7.0
-    #   with:
-    #     ssh-private-key: ${{ secrets.SSH_KEY }}
-    #     ssh-auth-sock: /tmp/my_auth.sock
-
-    # - name: Run ssh bash script command
-    #   run: |
-    #     IP=$(cat ip.txt)
-    #     chmod +x prep.sh
-    #     ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
-
-    # ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
-
-
-
-    - name: executing remote ssh commands using ssh key
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: $IP
-        username: ubuntu
-        key: ${{ secrets.SSH_KEY }}
-        port: 22
-        script: prep.sh
-
-    # - name: prep.sh in this dir?
-    #   run: |
-    #     ls
-
-    # - name: Run bash in Remote
-    #   run: |
-    #     IP=$(cat ip.txt)
-    #     chmod +x prep.sh
-
-    #     ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
-
-    # - name: rsync deployments
-    #   uses: burnett01/rsync-deployments@6.0.0
-    #   with:
-    #     switches: -avzr --delete
-    #     path: ../docker-compose.yml
-    #     remote_path: ~/
-    #     remote_host: $IP
-    #     remote_user: ubuntu
-    #     remote_key: ${{ secrets.SSH_KEY }}
-    
-    # - name: Get dynamic IP address
-    #   uses: actions/get-dynamic-ip@v1
-    #   id: ip
-
-    # - name: Store dynamic IP address in secret
-    #   run: |
-    #     echo "${{ steps.ip.outputs.ip_address }}" | tee -a ${{ secrets.IP_ADDRESS }}
-
-    # - name: copy file via ssh key
-    #   uses: appleboy/scp-action@v0.1.4
-    #   with:
-    #     host: ${{ secrets.IP_ADDRESS }}
+    #     host: $IP
     #     username: ubuntu
-    #     port: 22
     #     key: ${{ secrets.SSH_KEY }}
-    #     source: "../docker-compose.yml"
-    #     target: ~/docker-compose.yml
+    #     port: 22
+    #     script: prep.sh
 
-    # - name: Setting up SSH key
-    #   run: |
-    #     echo "${{ secrets.SSH_KEY }}" > terminal-app-github.pem
-    #     chmod 600 terminal-app-github.pem
 
-    # - name: playbook
-    #   run: ansible-playbook run-app-docker-compose.yml
+
+    - name: playbook
+      run: ansible-playbook run-app-docker-compose.yml
 
     # git commit --allow-empty -m "Empty commit

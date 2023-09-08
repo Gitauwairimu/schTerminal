@@ -4,6 +4,17 @@
   
   tasks:
 
+    - name: Give executable permissions to prep.sh
+      file:
+        path: /prep.sh
+        state: file
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Run prep.sh
+      shell: /prep.sh
+
     - name: Remove apt lock file
       file:
         state: absent
@@ -12,24 +23,15 @@
         clean: yes
       become: yes
 
-    # - name: Update the operating system
-    #   apt:
-    #     update_cache: yes
+    - name: Update the operating system
+      apt:
+        update_cache: yes
 
-    # - name: Install Docker Compose
-    #   apt:
-    #     name: docker-compose
-    #     state: present
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
 
-    - name: Copy docker-compose file
-      copy:
-        src: /ansible/run-app-docker-compose.yml
-        dest: /ansible/run-app-docker-compose.yml
-        mode: 0644
-    - command:
-        cmd: cat "/ansible/run-app-docker-compose.yml"
-    - command:
-        cmd: ls
 
     # - name: Run docker-compose up
     #   docker_compose:
