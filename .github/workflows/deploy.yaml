@@ -298,7 +298,7 @@ jobs:
     - name: executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@v1.0.0
       with:
-        host: ${{ secrets.IP_ADDRESS }}
+        host: $IP
         username: ubuntu
         key: ${{ secrets.SSH_KEY }}
         port: 22
