@@ -207,7 +207,7 @@ jobs:
         echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
     
     - name: Store dynamic IP as secret
-       run: |
+      run: |
         echo ${{ secrets.IP_ADDRESS }} > secrets.IP_ADDRESS
 
     - name: Is secrets.IP_ADDRESS assigned?
