@@ -230,6 +230,7 @@ jobs:
     - uses: webfactory/ssh-agent@v0.7.0
       with:
         ssh-private-key: ${{ secrets.SSH_KEY }}
+        ssh-auth-sock: /tmp/my_auth.sock
 
     - name: Run ssh bash script command
       run: |
