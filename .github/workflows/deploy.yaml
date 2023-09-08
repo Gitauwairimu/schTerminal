@@ -216,6 +216,9 @@ jobs:
 
     - name: Run bash in Remote
       run: |
+        IP=$(cat ip.txt)
+        chmod +x prep.sh
+
         ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
     # - name: rsync deployments
