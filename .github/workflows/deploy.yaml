@@ -202,9 +202,14 @@ jobs:
 
     - name: Set dynamic IP as secret and store it
       run: |
-        ip_address: $(cat ip.txt)
-      store:
-        path: secrets.IP_ADDRESS
+        IP=$(cat ip.txt)
+        echo "IP=$IP" >> $GITHUB_ENV
+    - name: Export variable IP for next jobs
+      uses: UnlyEd/github-action-store-variable@v3 # See https://github.com/UnlyEd/github-action-store-variable
+      with:
+        # Persist (store) our IP ENV variable into our store, for the next jobs
+        variables: |
+          IP=${{ env.IP }}
 
     # - name: Set dynamic IP as secret
     #   run: |
@@ -212,13 +217,13 @@ jobs:
     #     echo "Added dynamic IP to secrets"
     #     echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
     
-    - name: Is secrets.IP_ADDRESS assigned?
-      run: |
-        echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
+    # - name: Is secrets.IP_ADDRESS assigned?
+    #   run: |
+    #     echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
 
     - name: Copy Docker Compose file to remote
       run: |
-        IP=$(cat ip.txt)
+        echo "The IP address is $IP"
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
         ssh-keyscan $IP
