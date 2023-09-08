@@ -215,6 +215,7 @@ jobs:
 
     - name: Run ssh command
       run: |
+        IP=$(cat ip.txt)
         ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
     # ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
