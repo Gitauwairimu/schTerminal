@@ -220,14 +220,17 @@ jobs:
       run: |
         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
         ssh-add - <<< "${{ secrets.SSH_KEY }}"
-
-    - name: Run bash script
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      run: |
         IP=$(cat ip.txt)
         chmod +x prep.sh
         ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
+
+    # - name: Run bash script
+    #   env:
+    #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+    #   run: |
+    #     IP=$(cat ip.txt)
+    #     chmod +x prep.sh
+    #     ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
     
     # - uses: tanmancan/action-setup-ssh-agent-key@1.0.0
     #   with:
