@@ -212,9 +212,9 @@ jobs:
       with:
         private-key: ${{ secrets.SSH_KEY }}
 
-      - name: Run ssh command
-        run: |
-          ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
+    - name: Run ssh command
+      run: |
+        ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
     # - name: prep.sh in this dir?
     #   run: |
