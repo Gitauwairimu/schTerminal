@@ -64,9 +64,11 @@ jobs:
         run: |
           sed -i "s|image: gitauwairimu.*|image: gitauwairimu/cmd-python-app:${GITHUB_RUN_ID}|g" docker-compose.yml
   
-      - name: Cat docker-compose.yml
-        run: |
-          cat docker-compose.yml
+      - name: Upload docker-compose.yml
+        uses: actions/upload-artifact@v3
+        with:
+          name: compose
+          path: docker-compose.yml
       
 
   provision_server:
@@ -190,10 +192,12 @@ jobs:
     #     key: ${{ secrets.SSH_KEY }}
     #     script: |
     #       rsync -av docker-compose.yml ~/
-    - name: where am I?
-      run: |
-        ls
-        pwd
+
+    - name: Download docker-compose.yml
+      uses: actions/download-artifact@v3
+      with:
+        name: compose
+        path: ansible
 
     - name: Copy Docker Compose file to remote
       run: |
@@ -201,7 +205,7 @@ jobs:
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
         ssh-keyscan $IP
-        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem ../docker-compose.yml ubuntu@$IP:~/ 
+        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml ubuntu@$IP:~/ 
 
     # - name: rsync deployments
     #   uses: burnett01/rsync-deployments@6.0.0
@@ -236,7 +240,7 @@ jobs:
     #     echo "${{ secrets.SSH_KEY }}" > terminal-app-github.pem
     #     chmod 600 terminal-app-github.pem
 
-    - name: playbook
-      run: ansible-playbook run-app-docker-compose.yml
+    # - name: playbook
+    #   run: ansible-playbook run-app-docker-compose.yml
 
     # git commit --allow-empty -m "Empty commit
