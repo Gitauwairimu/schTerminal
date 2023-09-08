@@ -15,13 +15,6 @@
     - name: Run prep.sh
       shell: /home/ubuntu/prep.sh
 
-    - name: Remove apt lock file
-      file:
-        state: absent
-        path: "/var/lib/apt/lists/*"
-    - ansible.builtin.apt:
-        clean: yes
-      become: yes
 
     - name: Update the operating system
       apt:
@@ -33,7 +26,7 @@
         state: present
 
 
-    # - name: Run docker-compose up
-    #   docker_compose:
-    #     project_name: my_project
-    #     command: up -d
+    - name: Run docker-compose up
+      docker_compose:
+        project_name: my_project
+        command: up -d
