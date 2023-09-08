@@ -220,12 +220,16 @@ jobs:
         pwd
         cat prep.sh
     
-    - uses: tanmancan/action-setup-ssh-agent-key@1.0.0
-      with:
-        ssh-auth-sock: /tmp/my_auth.sock
-        ssh-private-key: ${{ secrets.SSH_KEY }}
-      # Key for a first server
-      # run: ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
+    # - uses: tanmancan/action-setup-ssh-agent-key@1.0.0
+    #   with:
+    #     ssh-auth-sock: /tmp/my_auth.sock
+    #     ssh-private-key: ${{ secrets.SSH_KEY }}
+    #   # Key for a first server
+    #   # run: ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
+
+    - uses: webfactory/ssh-agent@v0.7.0
+        with:
+            ssh-private-key: ${{ secrets.SSH_KEY }}
 
     - name: Run ssh bash script command
       run: |
