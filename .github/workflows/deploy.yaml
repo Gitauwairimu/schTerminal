@@ -205,6 +205,10 @@ jobs:
         echo $(cat ip.txt) | tee secrets.IP_ADDRESS
         echo "Added dynamic IP to secrets"
         echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
+    
+    - name: Store dynamic IP as secret
+      store:
+        path: secrets.IP_ADDRESS
 
     - name: Is secrets.IP_ADDRESS assigned?
       run: |
