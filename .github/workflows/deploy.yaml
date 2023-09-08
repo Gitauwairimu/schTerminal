@@ -220,19 +220,18 @@ jobs:
     #     host: github.com
     #     private-key: ${{ secrets.SSH_KEY }}
 
-    - name: Get dynamic IP address
-      uses: actions/get-dynamic-ip@v2
-
-    - name: Print dynamic IP address
-      run: |
-        echo "The dynamic IP address is ${{ steps.get-dynamic-ip.outputs.ip_address }}"
-
-
     - uses: actions/get-dynamic-ip@v2
     - name: Set dynamic IP as secret
       run: |
-        echo ${{ steps.get-dynamic-ip.outputs.ip_address }} | tee secrets.IP_ADDRESS
+        echo ${{ cat ip.txt }} | tee secrets.IP_ADDRESS
         echo "Added dynamic IP to secrets"
+        echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
+
+    - name: Trial Script
+      run: |
+        chmod +x prep.sh
+        touch ~/.ssh/known_hosts
+        ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP_ADDRESS prep.sh
 
     - name: Execute bash Script
       run: |
