@@ -6,14 +6,14 @@
 
     - name: Give executable permissions to prep.sh
       file:
-        path: ~/prep.sh
+        path: /home/ubuntu/prep.sh
         state: file
-        owner: root
-        group: root
+        owner: ubuntu
+        group: ubuntu
         mode: '0755'
 
     - name: Run prep.sh
-      shell: ~/prep.sh
+      shell: /home/ubuntu/prep.sh
 
     - name: Remove apt lock file
       file:
