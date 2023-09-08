@@ -225,13 +225,13 @@ jobs:
         ssh-auth-sock: /tmp/my_auth.sock
         ssh-private-key: ${{ secrets.SSH_KEY }}
       # Key for a first server
-      run: ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
+      # run: ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
-    # - name: Run ssh bash script command
-    #   run: |
-    #     IP=$(cat ip.txt)
-    #     chmod +x prep.sh
-    #     ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
+    - name: Run ssh bash script command
+      run: |
+        IP=$(cat ip.txt)
+        chmod +x prep.sh
+        ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
     # ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
