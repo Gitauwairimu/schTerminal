@@ -220,7 +220,7 @@ jobs:
     #     host: github.com
     #     private-key: ${{ secrets.SSH_KEY }}
 
-    - uses: actions/get-dynamic-ip@v2
+
     - name: Set dynamic IP as secret
       run: |
         echo ${{ cat ip.txt }} | tee secrets.IP_ADDRESS
