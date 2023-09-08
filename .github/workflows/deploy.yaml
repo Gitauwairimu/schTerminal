@@ -214,11 +214,20 @@ jobs:
         key: terminal-app-github.pem
         known_hosts: ~/.ssh/known_hosts
 
-    - name: locate bash script
+    - name: Setup SSH Keys and known_hosts
+      env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
-        echo $PATH
-        pwd
-        cat prep.sh
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        ssh-add - <<< "${{ secrets.SSH_KEY }}"
+
+    - name: Run bash script
+      env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
+        IP=$(cat ip.txt)
+        chmod +x prep.sh
+        ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
     
     # - uses: tanmancan/action-setup-ssh-agent-key@1.0.0
     #   with:
@@ -227,16 +236,16 @@ jobs:
     #   # Key for a first server
     #   # run: ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
-    - uses: webfactory/ssh-agent@v0.7.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_KEY }}
-        ssh-auth-sock: /tmp/my_auth.sock
+    # - uses: webfactory/ssh-agent@v0.7.0
+    #   with:
+    #     ssh-private-key: ${{ secrets.SSH_KEY }}
+    #     ssh-auth-sock: /tmp/my_auth.sock
 
-    - name: Run ssh bash script command
-      run: |
-        IP=$(cat ip.txt)
-        chmod +x prep.sh
-        ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
+    # - name: Run ssh bash script command
+    #   run: |
+    #     IP=$(cat ip.txt)
+    #     chmod +x prep.sh
+    #     ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
     # ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
