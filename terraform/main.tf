@@ -32,7 +32,7 @@ resource "aws_instance" "prometheus-server" {
 #  ami           = "ami-053b0d53c279acc90" #22.04 LTS, amd64 // us-east-1
   ami           = "ami-02a9d4cace1c5a38a" #22.04 LTS, amd64 // af-south-1
   
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   # key_name      = "terminal-app-github"
   key_name      = "af-git-key"
 
