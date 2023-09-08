@@ -216,16 +216,33 @@ jobs:
 
     - name: locate bash script
       run: |
-        ls
+        echo $PATH
         pwd
         cat prep.sh
+    
+    - uses: tanmancan/action-setup-ssh-agent-key@1.0.0
+      with:
+        ssh-auth-sock: /tmp/my_auth.sock
+        ssh-private-key: ${{ secrets.SSH_KEY }}
+      # Key for a first server
+      run: ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
-    - name: Run ssh bash script command
-      run: |
-        IP=$(cat ip.txt)
-        chmod +x prep.sh
-        ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
+    # - name: Run ssh bash script command
+    #   run: |
+    #     IP=$(cat ip.txt)
+    #     chmod +x prep.sh
+    #     ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
+
     # ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
+
+    # - name: executing remote ssh commands using ssh key
+    #   uses: appleboy/ssh-action@v1.0.0
+    #   with:
+    #     host: $IP
+    #     username: ubuntu
+    #     key: terminal-app-github.pem
+    #     port: 22
+    #     script: prep.sh
 
     # - name: prep.sh in this dir?
     #   run: |
