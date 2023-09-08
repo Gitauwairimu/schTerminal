@@ -287,9 +287,9 @@ jobs:
     - name: executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@v1.0.0
       with:
-        host: $(cat ip.txt)
+        host: ${{ secrets.IP_ADDRESS }}
         username: ubuntu
-        key: terminal-app-github.pem
+        key: ${{ secrets.SSH_KEY }}
         port: 22
         script: prep.sh
 
