@@ -207,13 +207,13 @@ jobs:
         ssh-keyscan $IP
         scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
 
-    - name: Run bash script
+    - name: Set Up SSH Key
       uses: shimataro/ssh-key-action@v2
       with:
         key: terminal-app-github.pem
         known_hosts: ~/.ssh/known_hosts
 
-    - name: Run ssh command
+    - name: Run ssh bash script command
       run: |
         IP=$(cat ip.txt)
         ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
