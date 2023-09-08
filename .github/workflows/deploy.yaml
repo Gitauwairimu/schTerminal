@@ -312,14 +312,15 @@ jobs:
 
     # ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
-    # - name: executing remote ssh commands using ssh key
-    #   uses: appleboy/ssh-action@v1.0.0
-    #   with:
-    #     host: ${{IP}}
-    #     username: ubuntu
-    #     key: ${{ secrets.SSH_KEY }}
-    #     port: 22
-    #     script: prep.sh
+
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ IP }}
+        username: ubuntu
+        key: ${{ secrets.SSH_KEY }}
+        port: 22
+        script: prep.sh
 
     # - name: prep.sh in this dir?
     #   run: |
