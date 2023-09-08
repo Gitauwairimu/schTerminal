@@ -223,7 +223,7 @@ jobs:
 
     - name: Set dynamic IP as secret
       run: |
-        echo ${{ cat ip.txt }} | tee secrets.IP_ADDRESS
+        echo $(cat ip.txt) | tee secrets.IP_ADDRESS
         echo "Added dynamic IP to secrets"
         echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
 
