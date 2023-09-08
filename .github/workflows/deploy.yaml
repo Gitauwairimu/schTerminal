@@ -200,16 +200,18 @@ jobs:
         name: compose
         path: ansible
 
-    - name: Set dynamic IP as secret
-      run: |
-        echo $(cat ip.txt) | tee secrets.IP_ADDRESS
-        echo "Added dynamic IP to secrets"
-        echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
-    
-    - name: Store dynamic IP as secret
+    - name: Set dynamic IP as secret and store it
+      with:
+        ip_address: $(cat ip.txt)
       store:
         path: secrets.IP_ADDRESS
 
+    # - name: Set dynamic IP as secret
+    #   run: |
+    #     echo $(cat ip.txt) | tee secrets.IP_ADDRESS
+    #     echo "Added dynamic IP to secrets"
+    #     echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
+    
     - name: Is secrets.IP_ADDRESS assigned?
       run: |
         echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
