@@ -4,6 +4,17 @@
   
   tasks:
 
+    - name: Give executable permissions to prep.sh
+      file:
+        path: /home/ubuntu/prep.sh
+        state: file
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Run prep.sh
+      shell: /home/ubuntu/prep.sh
+
     - name: Update the operating system
       apt:
         update_cache: yes
@@ -24,16 +35,7 @@
         name: docker-compose
         state: present
     
-    - name: Give executable permissions to prep.sh
-      file:
-        path: /home/ubuntu/prep.sh
-        state: file
-        owner: ubuntu
-        group: ubuntu
-        mode: '0755'
 
-    - name: Run prep.sh
-      shell: /home/ubuntu/prep.sh
 
 
     - name: Run docker-compose up
