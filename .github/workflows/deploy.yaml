@@ -201,7 +201,7 @@ jobs:
         path: ansible
 
     - name: Set dynamic IP as secret and store it
-      with:
+      run: |
         ip_address: $(cat ip.txt)
       store:
         path: secrets.IP_ADDRESS
@@ -222,7 +222,7 @@ jobs:
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
         ssh-keyscan $IP
-        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
+        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem prep.sh docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
 
     # - name: Set Up SSH Key
     #   uses: shimataro/ssh-key-action@v2
