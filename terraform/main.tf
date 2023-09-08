@@ -12,8 +12,8 @@ terraform {
       # Replace this with your bucket name!
       bucket = "terminal-terraform-state-bucket"
       key = "terraform.tfstate"
-      # region= "us-east-1"
-      region= "af-south-1"
+      region= "us-east-1"
+      # region= "af-south-1"
       encrypt        = true
      }
 }
