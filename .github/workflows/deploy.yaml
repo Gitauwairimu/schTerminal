@@ -212,7 +212,7 @@ jobs:
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
         ssh-keyscan $IP
-        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
+        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml run-app-docker-compose.yml ubuntu@${{secrets.IP_ADDRESS}}:~/ 
 
     # - name: Set Up SSH Key
     #   uses: shimataro/ssh-key-action@v2
