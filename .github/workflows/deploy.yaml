@@ -207,13 +207,14 @@ jobs:
         ssh-keyscan $IP
         scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
 
-    # - uses: actions/setup-ssh@v2
     - name: Run bash script
       uses: actions/setup-ssh@v2
       with:
         private-key: ${{ secrets.SSH_KEY }}
-      run: |
-        ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
+
+      - name: Run ssh command
+        run: |
+          ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
     # - name: prep.sh in this dir?
     #   run: |
