@@ -210,7 +210,7 @@ jobs:
     - name: Run bash script
       uses: shimataro/ssh-key-action@v2
       with:
-        private-key: terminal-app-github.pem
+        key: terminal-app-github.pem
 
     - name: Run ssh command
       run: |
