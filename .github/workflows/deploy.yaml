@@ -201,13 +201,13 @@ jobs:
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
         ssh-keyscan $IP
-        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml ubuntu@$IP:~/ 
+        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem ../docker-compose.yml ubuntu@$IP:~/ 
 
     # - name: rsync deployments
     #   uses: burnett01/rsync-deployments@6.0.0
     #   with:
     #     switches: -avzr --delete
-    #     path: docker-compose.yml
+    #     path: ../docker-compose.yml
     #     remote_path: ~/
     #     remote_host: $IP
     #     remote_user: ubuntu
@@ -228,7 +228,7 @@ jobs:
     #     username: ubuntu
     #     port: 22
     #     key: ${{ secrets.SSH_KEY }}
-    #     source: "docker-compose.yml"
+    #     source: "../docker-compose.yml"
     #     target: ~/docker-compose.yml
 
     # - name: Setting up SSH key
