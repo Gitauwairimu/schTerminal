@@ -7,4 +7,4 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install ansible -y
 
 # Run the Ansible playbook
-ansible-playbook playbook.yml
+# ansible-playbook playbook.yml
