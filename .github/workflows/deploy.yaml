@@ -220,13 +220,26 @@ jobs:
     #     host: github.com
     #     private-key: ${{ secrets.SSH_KEY }}
 
-    - name: Clone repository
+    - name: Get dynamic IP address
+      uses: actions/get-dynamic-ip@v2
+
+    - name: Print dynamic IP address
       run: |
-        sudo apt-get install openssh-client -y
+        echo "The dynamic IP address is ${{ steps.get-dynamic-ip.outputs.ip_address }}"
+
+
+    - uses: actions/get-dynamic-ip@v2
+    - name: Set dynamic IP as secret
+      run: |
+        echo ${{ steps.get-dynamic-ip.outputs.ip_address }} | tee secrets.IP_ADDRESS
+        echo "Added dynamic IP to secrets"
+
+    - name: Execute bash Script
+      run: |
         IP=$(cat ip.txt)
         chmod +x prep.sh
         touch ~/.ssh/known_hosts
-        ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
+        ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
     # - name: Setup SSH Keys and known_hosts
     #   env:
