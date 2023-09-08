@@ -211,6 +211,7 @@ jobs:
       uses: shimataro/ssh-key-action@v2
       with:
         key: terminal-app-github.pem
+        known_hosts: ~/.ssh/known_hosts
 
     - name: Run ssh command
       run: |
