@@ -213,8 +213,9 @@ jobs:
     - name: Copy Docker Compose file to remote
       run: |
         IP=$(cat ip.txt)
-        echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
         echo $(cat ip.txt) | tee secrets.IP_ADDRESS
+        # echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
+        echo "The IP address is ${{secrets.IP_ADDRESS}} | sed 's/./& /g'"
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
         ssh-keyscan $IP
