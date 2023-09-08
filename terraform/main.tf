@@ -12,13 +12,15 @@ terraform {
       # Replace this with your bucket name!
       bucket = "terminal-terraform-state-bucket"
       key = "terraform.tfstate"
-      region= "us-east-1"
+      # region= "us-east-1"
+      region= "af-south-1"
       encrypt        = true
      }
 }
 
 provider "aws" {
-  region = "us-east-1"
+  # region = "us-east-1"
+  region= "af-south-1"
   # access_key = "$access_key"
   # secret_key = "$secret_key"
 }
@@ -27,9 +29,12 @@ provider "aws" {
 
 resource "aws_instance" "prometheus-server" {
 #  ami           = "ami-08d4ac5b634553e16" #ubuntu 20.04 LTS // us-east-1
-  ami           = "ami-053b0d53c279acc90" #22.04 LTS, amd64 // us-east-1
+#  ami           = "ami-053b0d53c279acc90" #22.04 LTS, amd64 // us-east-1
+  ami           = "ami-02a9d4cace1c5a38a" 22.04 LTS, amd64 // af-south-1
+  
   instance_type = "t2.micro"
-  key_name      = "terminal-app-github"
+  # key_name      = "terminal-app-github"
+  key_name      = "af-git-key"
 
   vpc_security_group_ids = [
     aws_security_group.terminal-iac-sg.id
@@ -75,7 +80,7 @@ resource "aws_security_group" "terminal-iac-sg" {
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   } 
-  
+
   egress {
     from_port = 22
     to_port = 22

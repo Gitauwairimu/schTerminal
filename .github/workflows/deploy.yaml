@@ -11,7 +11,8 @@ env:
    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
    AWS_EC2_METADATA_DISABLED: true
-   AWS_DEFAULT_REGION: us-east-1
+   AWS_DEFAULT_REGION: af-south-1
+  #  AWS_DEFAULT_REGION: us-east-1
 
 jobs:
   build:
@@ -85,8 +86,8 @@ jobs:
     - uses: hashicorp/setup-terraform@v2
     - name: Setting up SSH key
       run: |
-        echo "${{ secrets.SSH_KEY }}" > terminal-app-github.pem
-        chmod 600 terminal-app-github.pem
+        echo "${{ secrets.AF_SSH_KEY }}" > af-git-key.pem
+        chmod 600 af-git-key.pem
     # - name: Terraform fmt
     #   id: fmt
     #   run: terraform fmt -check
@@ -150,8 +151,8 @@ jobs:
         path: ansible
     - name: Setting up SSH key
       run: |
-        echo "${{ secrets.SSH_KEY }}" > terminal-app-github.pem
-        chmod 600 terminal-app-github.pem 
+        echo "${{ secrets.AF_SSH_KEY }}" > af-git-key.pem
+        chmod 600 af-git-key.pem
 
     - name: Ip file
       run: touch ip.txt
@@ -227,7 +228,7 @@ jobs:
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
         ssh-keyscan $IP
-        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem prep.sh docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
+        scp -o StrictHostKeyChecking=no -i af-git-key.pem prep.sh docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
 
 
 
