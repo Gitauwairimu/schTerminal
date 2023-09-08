@@ -221,48 +221,19 @@ jobs:
     #   run: |
     #     echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
 
-    # - name: Copy Docker Compose file to remote
-    #   run: |
-    #     echo "The IP address is $IP"
-    #     mkdir -p ~/.ssh
-    #     touch ~/.ssh/known_hosts
-    #     ssh-keyscan $IP
-    #     scp -o StrictHostKeyChecking=no -i terminal-app-github.pem prep.sh docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
-
-    - name: Configure SSH
+    - name: Copy Docker Compose file to remote
       run: |
-        mkdir -p ~/.ssh/
-        echo "$SSH_KEY" > ~/.ssh/staging.key
-        chmod 600 ~/.ssh/staging.key
-        cat >>~/.ssh/config <<END
-        Host staging
-          HostName $SSH_HOST
-          User $SSH_USER
-          IdentityFile ~/.ssh/staging.key
-          StrictHostKeyChecking no
-        END
-      env:
-        SSH_USER: ubuntu
-        SSH_KEY: ${{ secrets.SSH_KEY }}
-        SSH_HOST: $IP
-
-    # - name: Set Up SSH Key
-    #   uses: shimataro/ssh-key-action@v2
-    #   with:
-    #     key: terminal-app-github.pem
-    #     known_hosts: ~/.ssh/known_hosts
-
-    # - name: Setup SSH
-    #   uses: MrSquaare/ssh-setup-action@v2
-    #   with:
-    #     host: github.com
-    #     private-key: ${{ secrets.SSH_KEY }}
-
+        echo "The IP address is $IP"
+        mkdir -p ~/.ssh
+        touch ~/.ssh/known_hosts
+        ssh-keyscan $IP
+        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem prep.sh docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
 
 
 
     - name: Trial Script
       run: |
+        IP=$(cat ip.txt)
         chmod +x prep.sh
         touch ~/.ssh/known_hosts
         ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
