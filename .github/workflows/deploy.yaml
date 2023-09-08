@@ -227,18 +227,18 @@ jobs:
         echo "Added dynamic IP to secrets"
         echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
 
-    - name: Trial Script
-      run: |
-        chmod +x prep.sh
-        touch ~/.ssh/known_hosts
-        ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP_ADDRESS prep.sh
+    # - name: Trial Script
+    #   run: |
+    #     chmod +x prep.sh
+    #     touch ~/.ssh/known_hosts
+    #     ssh -i ${{ secrets.SSH_KEY }} ubuntu@${{ secrets.IP_ADDRESS }} prep.sh
 
-    - name: Execute bash Script
-      run: |
-        IP=$(cat ip.txt)
-        chmod +x prep.sh
-        touch ~/.ssh/known_hosts
-        ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
+    # - name: Execute bash Script
+    #   run: |
+    #     IP=$(cat ip.txt)
+    #     chmod +x prep.sh
+    #     touch ~/.ssh/known_hosts
+    #     ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
     # - name: Setup SSH Keys and known_hosts
     #   env:
@@ -278,14 +278,14 @@ jobs:
 
     # ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
-    # - name: executing remote ssh commands using ssh key
-    #   uses: appleboy/ssh-action@v1.0.0
-    #   with:
-    #     host: $IP
-    #     username: ubuntu
-    #     key: terminal-app-github.pem
-    #     port: 22
-    #     script: prep.sh
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{secrets.IP_ADDRESS}}
+        username: ubuntu
+        key: terminal-app-github.pem
+        port: 22
+        script: prep.sh
 
     # - name: prep.sh in this dir?
     #   run: |
