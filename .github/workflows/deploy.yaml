@@ -206,21 +206,17 @@ jobs:
         echo "Added dynamic IP to secrets"
         echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
 
-    - name: Copy Docker Compose file to remote
+    - name: Is secrets.IP_ADDRESS assigned?
       run: |
         echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
 
     - name: Copy Docker Compose file to remote
       run: |
         IP=$(cat ip.txt)
-        echo $(cat ip.txt) | tee secrets.IP_ADDRESS
-        # echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
-        echo "The IP address is ${{secrets.IP_ADDRESS}} | sed 's/./& /g'"
         mkdir -p ~/.ssh
         touch ~/.ssh/known_hosts
         ssh-keyscan $IP
-
-        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml run-app-docker-compose.yml ubuntu@${{secrets.IP_ADDRESS}}:~/ 
+        scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
 
     # - name: Set Up SSH Key
     #   uses: shimataro/ssh-key-action@v2
@@ -291,7 +287,7 @@ jobs:
     - name: executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@v1.0.0
       with:
-        host: ${{secrets.IP_ADDRESS}}
+        host: $(cat ip.txt)
         username: ubuntu
         key: terminal-app-github.pem
         port: 22
