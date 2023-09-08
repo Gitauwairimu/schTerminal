@@ -208,21 +208,35 @@ jobs:
         ssh-keyscan $IP
         scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
 
-    - name: Set Up SSH Key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: terminal-app-github.pem
-        known_hosts: ~/.ssh/known_hosts
+    # - name: Set Up SSH Key
+    #   uses: shimataro/ssh-key-action@v2
+    #   with:
+    #     key: terminal-app-github.pem
+    #     known_hosts: ~/.ssh/known_hosts
 
-    - name: Setup SSH Keys and known_hosts
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+    # - name: Setup SSH
+    #   uses: MrSquaare/ssh-setup-action@v2
+    #   with:
+    #     host: github.com
+    #     private-key: ${{ secrets.SSH_KEY }}
+
+    - name: Clone repository
       run: |
-        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-        ssh-add - <<< "${{ secrets.SSH_KEY }}"
+        sudo apt-get install openssh-client -y
         IP=$(cat ip.txt)
         chmod +x prep.sh
+        touch ~/.ssh/known_hosts
         ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
+
+    # - name: Setup SSH Keys and known_hosts
+    #   env:
+    #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+    #   run: |
+    #     ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+    #     ssh-add - <<< "${{ secrets.SSH_KEY }}"
+    #     IP=$(cat ip.txt)
+    #     chmod +x prep.sh
+    #     ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
     # - name: Run bash script
     #   env:
