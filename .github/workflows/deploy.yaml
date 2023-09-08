@@ -208,12 +208,15 @@ jobs:
         scp -o StrictHostKeyChecking=no -i terminal-app-github.pem docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
 
     # - uses: actions/setup-ssh@v2
-    - name: Run bash script
-      with:
-        private-key: ${{ secrets.SSH_KEY }}
-      run: |
-        ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
+    # - name: Run bash script
+    #   with:
+    #     private-key: ${{ secrets.SSH_KEY }}
+    #   run: |
+    #     ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
 
+    - name: Run bash in Remote
+      run: |
+        ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
 
     # - name: rsync deployments
     #   uses: burnett01/rsync-deployments@6.0.0
