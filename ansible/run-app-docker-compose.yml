@@ -4,6 +4,26 @@
   
   tasks:
 
+    - name: Update the operating system
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
+    
     - name: Give executable permissions to prep.sh
       file:
         path: /home/ubuntu/prep.sh
@@ -14,16 +34,6 @@
 
     - name: Run prep.sh
       shell: /home/ubuntu/prep.sh
-
-
-    - name: Update the operating system
-      apt:
-        update_cache: yes
-
-    - name: Install Docker Compose
-      apt:
-        name: docker-compose
-        state: present
 
 
     - name: Run docker-compose up
