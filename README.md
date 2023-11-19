@@ -54,7 +54,7 @@ Connect the repository with its remote to enable pulls and pushes:
 
 Bash
 
-git remote add origin [https://github.com/Gitauwairimu/schTerminal.git](https://github.com/Gitauwairimu/schTerminal.git)
+git remote add origin https://github.com/Gitauwairimu/schTerminal.git
 
 5. Create a `.gitignore` file to exclude unnecessary files from version control.
 6. Create an `.env` file to store environment variables for database credentials and external services like Slack and Twilio.
@@ -65,7 +65,7 @@ psql -d postgres
 CREATE DATABASE school;
 
 
-    Create a user named charles with password Guide147:
+    Create a user named dbuser with password dbuserpaswword:
 
 SQL
 
@@ -73,11 +73,11 @@ CREATE USER charles WITH PASSWORD 'Guide147';
 
 
 
-    Grant all privileges on the school database to the charles user:
+    Grant all privileges on the school database to the dbuser user:
 
 SQL
 
-GRANT ALL PRIVILEGES ON DATABASE school TO charles;
+GRANT ALL PRIVILEGES ON DATABASE school TO dbuser;
 
 
 Configuration
