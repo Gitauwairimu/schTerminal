@@ -39,18 +39,18 @@ schTerminal is a school management system designed to streamline the day-to-day 
 1. Fork the repository: https://github.com/Gitauwairimu/schTerminal.git
 2. Clone the Git repository using:
 ```bash
-git clone [https://github.com/Gitauwairimu/schTerminal.git](https://github.com/Gitauwairimu/schTerminal.git)
+git clone https://github.com/Gitauwairimu/schTerminal.git
 
 
 
-Enter the cloned repository directory:
+3. Enter the cloned repository directory:
 
 Bash
 
 cd schTerminal
 
 
-Connect the repository with its remote to enable pulls and pushes:
+4. Connect the repository with its remote to enable pulls and pushes:
 
 Bash
 
@@ -60,12 +60,12 @@ git remote add origin https://github.com/Gitauwairimu/schTerminal.git
 6. Create an `.env` file to store environment variables for database credentials and external services like Slack and Twilio.
 7. Configure PostgreSQL:
    - Create the database `school`:
-sql
+
 psql -d postgres
 CREATE DATABASE school;
 
 
-    Create a user named dbuser with password dbuserpaswword:
+Create a user named dbuser with password dbuserpaswword:
 
 SQL
 
@@ -73,7 +73,7 @@ CREATE USER charles WITH PASSWORD 'Guide147';
 
 
 
-    Grant all privileges on the school database to the dbuser user:
+Grant all privileges on the school database to the dbuser user:
 
 SQL
 
