@@ -12,6 +12,8 @@ env:
    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
    AWS_EC2_METADATA_DISABLED: true
    AWS_DEFAULT_REGION: af-south-1
+   KUBECONFIG: ${{ secrets.KUBECONFIG }}
+
   #  AWS_DEFAULT_REGION: us-east-1
 
 jobs:
