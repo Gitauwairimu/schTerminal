@@ -71,6 +71,16 @@ jobs:
           name: compose
           path: docker-compose.yml
       
+      - name: Generate Kubeconfig and Certs
+        run: |
+          echo ${{ secrets.KUBECONFIG }} > deploy.kubeconfig
+
+      - name: Kubernetes Deployment
+        uses: TanmoySG/k-deploy-action@v0.2.2-alpha
+        with:
+          kubeconfig: deploy.kubeconfig
+          namespace: 'default'
+          manifest: docker-compose.yml
 
   provision_server:
     defaults:
