@@ -179,33 +179,6 @@ jobs:
         IP=$(cat ip.txt)
         echo "The IP address is $IP"
 
-    # echo "IP=$(cat ip.txt)"
-    # - name: Get the IP address
-    #   run: |
-    #     IP_ADDRESS=(readlink ip.txt)
-    # IP_ADDRESS=$(ls)
-    # IP_ADDRESS=$(aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output json | jq -r '.[0]')
-    # IP_ADDRESS=$( aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --output text )
-    # IP_ADDRESS=$(cat ip.txt)
-    # - name: Read Inventory
-    #   run: |
-    #     IP=$(cat ip.txt)
-    #     echo "The IP address is $IP"
-    #     ping -c 1 $IP
-
-    # - name: Copy the docker-compose file
-    #   run: |
-    #     ssh ubuntu@$IP -i <(echo "${{ secrets.SSH_KEY }}" | tr -d '\r') rsync -av docker-compose.yml ~/
-
-    # - name: Copy the docker-compose file
-    #   uses: actions/ssh@v3
-    #   with:
-    #     hostname: $IP_ADDRESS
-    #     username: ubuntu
-    #     key: ${{ secrets.SSH_KEY }}
-    #     script: |
-    #       rsync -av docker-compose.yml ~/
-
     - name: Download docker-compose.yml
       uses: actions/download-artifact@v3
       with:
@@ -223,15 +196,6 @@ jobs:
         variables: |
           IP=${{ env.IP }}
 
-    # - name: Set dynamic IP as secret
-    #   run: |
-    #     echo $(cat ip.txt) | tee secrets.IP_ADDRESS
-    #     echo "Added dynamic IP to secrets"
-    #     echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
-    
-    # - name: Is secrets.IP_ADDRESS assigned?
-    #   run: |
-    #     echo ${{secrets.IP_ADDRESS}} | sed 's/./& /g'
 
     - name: Copy Docker Compose file to remote
       run: |
@@ -242,37 +206,6 @@ jobs:
         scp -o StrictHostKeyChecking=no -i af-git-key.pem prep.sh docker-compose.yml run-app-docker-compose.yml ubuntu@$IP:~/ 
 
 
-
-    # - name: Execute bash Script
-    #   run: |
-    #     IP=$(cat ip.txt)
-    #     chmod +x prep.sh
-    #     touch ~/.ssh/known_hosts
-    #     ssh -i ${{ secrets.SSH_KEY }} ubuntu@$IP prep.sh
-
-    # - name: Setup SSH Keys and known_hosts
-    #   env:
-    #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-    #   run: |
-    #     ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-    #     ssh-add - <<< "${{ secrets.SSH_KEY }}"
-    #     IP=$(cat ip.txt)
-    #     chmod +x prep.sh
-    #     ssh -i terminal-app-github.pem ubuntu@$IP prep.sh
-
- 
-    # - name: executing remote ssh commands using ssh key
-    #   uses: appleboy/ssh-action@v1.0.0
-    #   with:
-    #     host: $IP
-    #     username: ubuntu
-    #     key: ${{ secrets.SSH_KEY }}
-    #     port: 22
-    #     script: prep.sh
-
-
-
     - name: playbook
       run: ansible-playbook run-app-docker-compose.yml
 
-    # git commit --allow-empty -m "Empty commit
