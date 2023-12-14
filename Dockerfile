@@ -1,10 +1,12 @@
-FROM python:3.9.17-slim-bullseye
-
-COPY requirements.txt ./
-RUN pip install -r requirements.txt
-
+#Dockerfile
+FROM python:3.8-slim-buster
+ENV PYTHONUNBUFFERED=1
+RUN mkdir /application
+WORKDIR "/application"# Upgrade pip
+RUN pip install --upgrade pip# Update
+RUN apt-get update \
+    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*ADD requirements.txt /application/
 COPY . .
-
-CMD ["python3", "role_menu.py"]
-# CMD ["docker-compose", "run", "my_image", "python", "shell"]
-# docker-compose run my_image python role_menu.py shell
+# ADD src/script.py /application/
+RUN pip install -r /application/requirements.txt
+CMD [ "python", "role_menu.py" ]
