@@ -17,6 +17,7 @@ spec:
       containers:
       - name: my-app
         image: gitauwairimu/cmd-python-app:latest
+        imagePullPolicy: Always
         envFrom:
         - secretRef:
             name: db-secret  # Mount the db-secret into environment variables
