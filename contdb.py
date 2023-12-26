@@ -23,13 +23,24 @@ def connect_to_database():
   #       user='postgrescharles',
   #       password='qwertyqwerty')
 
-  connection_string = {
-    "host": "databaseterm.clrmhud2wsmi.us-east-1.rds.amazonaws.com",
-    "port": "5432",
-    "database": "databaseterm",
-    "user": "postgrescharles",
-    "password": "qwertyqwerty"
-  }
+  """Connects to the database using values from a Kubernetes secret."""
+
+  host = os.getenv("DB_HOST")
+  port = os.getenv("DB_PORT")
+  database = os.getenv("DB_DATABASE")
+  user = os.getenv("DB_USER")
+  password = os.getenv("DB_PASSWORD")
+
+
+
+
+  # connection_string = {
+  #   "host": "databaseterm.clrmhud2wsmi.us-east-1.rds.amazonaws.com",
+  #   "port": "5432",
+  #   "database": "databaseterm",
+  #   "user": "postgrescharles",
+  #   "password": "qwertyqwerty"
+  # }
  
   # Construct the connection string as a string
   connection_string = f"host={connection_string['host']} port={connection_string['port']} dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"

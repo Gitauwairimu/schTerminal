@@ -1,3 +1,4 @@
+import os
 # with open(".env") as f:
 #   env_vars = f.read().splitlines()
 
@@ -8,8 +9,11 @@
 def send_sms(to, body):
   from twilio.rest import Client
 
-  account_sid = ACCOUNT_SID
-  auth_token = AUTH_TOKEN
+  account_sid = os.getenv("ACCOUNT_SID")
+  auth_token = os.getenv("AUTH_TOKEN")
+
+  # account_sid = ACCOUNT_SID
+  # auth_token = AUTH_TOKEN
 
   client = Client(account_sid, auth_token)
 
