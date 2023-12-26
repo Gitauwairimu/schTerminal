@@ -50,9 +50,13 @@ def connect_to_database():
   # }
 
   port=5432
+  host=databaseterm.clrmhud2wsmi.us-east-1.rds.amazonaws.com
  
   # Construct the connection string as a string
-  connection_string = f"host={connection_string['host']} port={port} dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"
+  # connection_string = f"host={connection_string['host']} port={port} dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"
+  connection_string = f"host={host} port={port} dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"
+
+
 
 
   # Connect to the database.
