@@ -49,10 +49,10 @@ def connect_to_database():
   #   "password": "os.getenv('DB_PASSWORD')"
   # }
 
-  port='5432'
+  port=5432
  
   # Construct the connection string as a string
-  connection_string = f"host={connection_string['host']} port=port dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"
+  connection_string = f"host={connection_string['host']} port={port} dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"
 
 
   # Connect to the database.
