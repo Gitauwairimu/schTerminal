@@ -43,7 +43,7 @@ def connect_to_database():
   }
  
   # Construct the connection string as a string
-  connection_string = f"host={connection_string['host']} port={connection_string[int('port')]} dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"
+  connection_string = f"host={connection_string['host']} port=int({connection_string['port']}) dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"
 
 
   # Connect to the database.
