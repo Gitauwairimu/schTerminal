@@ -1,11 +1,11 @@
 import requests
 
-with open(".env") as f:
-  env_vars = f.read().splitlines()
+# with open(".env") as f:
+#   env_vars = f.read().splitlines()
 
-SLACK_WEBHOOK_URL = env_vars[2].split("=")[1]
-ACCOUNT_SID = env_vars[3].split("=")[1]
-AUTH_TOKEN = env_vars[4].split("=")[1]
+# SLACK_WEBHOOK_URL = env_vars[2].split("=")[1]
+# ACCOUNT_SID = env_vars[3].split("=")[1]
+# AUTH_TOKEN = env_vars[4].split("=")[1]
 
 def send_sms(to, body):
   from twilio.rest import Client
