@@ -7,11 +7,11 @@ import shutil
 def connect_to_database():
   """Connects to the database."""
   # Read the .env file: Get variablesss .
-  with open(".env") as f:
-    env_vars = f.read().splitlines()
+  # with open(".env") as f:
+  #   env_vars = f.read().splitlines()
 
-  DB_USERNAME = env_vars[0].split("=")[1]
-  DB_PASSWORD = env_vars[1].split("=")[1]
+  # DB_USERNAME = env_vars[0].split("=")[1]
+  # DB_PASSWORD = env_vars[1].split("=")[1]
 
   # Get the database connection string.
   # connection_string = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@localhost/school"
