@@ -33,13 +33,12 @@ def connect_to_database():
 
 
 
+  port = os.getenv("DB_HOST")
+  host = os.getenv('DB_HOST')
+  database = os.getenv('DB_DATABASE')
+  user = os.getenv('DB_USER')
+  password = os.getenv('DB_PASSWORD')
 
-  connection_string = {
-    "host": "os.getenv('DB_HOST')",
-    "database": "os.getenv('DB_DATABASE')",
-    "user": "os.getenv('DB_USER')",
-    "password": "os.getenv('DB_PASSWORD')"
-  }
 
   # connection_string = {
   #   "host": "os.getenv('DB_HOST')",
@@ -49,12 +48,11 @@ def connect_to_database():
   #   "password": "os.getenv('DB_PASSWORD')"
   # }
 
-  port=5432
-  host=databaseterm.clrmhud2wsmi.us-east-1.rds.amazonaws.com
+
  
   # Construct the connection string as a string
   # connection_string = f"host={connection_string['host']} port={port} dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"
-  connection_string = f"host={host} port={port} dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"
+  connection_string = f"host={host} port={port} dbname={database} user={user} password={password}"
 
 
 
