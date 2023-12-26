@@ -30,10 +30,14 @@ def connect_to_database():
     "user": "postgrescharles",
     "password": "qwertyqwerty"
   }
+ 
+  # Construct the connection string as a string
+  connection_string = f"host={connection_string['host']} port={connection_string['port']} dbname={connection_string['database']} user={connection_string['user']} password={connection_string['password']}"
 
 
- # Connect to the database.
+  # Connect to the database.
   connection = psycopg2.connect(connection_string)
+  
   if not connection.closed:
     print("DB Connection is active.")
   else:
