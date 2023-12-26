@@ -14,10 +14,25 @@ def connect_to_database():
   DB_PASSWORD = env_vars[1].split("=")[1]
 
   # Get the database connection string.
-  connection_string = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@localhost/school"
-  # connection_string = "postgresql://charles:Guide147@localhost/school"
-  # connection_string = "postgresql://charles:Guide147@postgres/school"
-  # Connect to the database.
+  # connection_string = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@localhost/school"
+ 
+  # Postgres RDS Connection
+  # connection_string = (host='rds.amazonaws.com',
+  #       port='5432',
+  #       database='db',
+  #       user='postgrescharles',
+  #       password='qwertyqwerty')
+
+  connection_string = {
+    "host": "db.clrmhud2wsmi.us-east-1.rds.amazonaws.com",
+    "port": "5432",
+    "database": "db",
+    "user": "postgrescharles",
+    "password": "qwertyqwerty"
+  }
+
+
+ # Connect to the database.
   connection = psycopg2.connect(connection_string)
   if not connection.closed:
     print("DB Connection is active.")
