@@ -24,9 +24,9 @@ def connect_to_database():
   #       password='qwertyqwerty')
 
   connection_string = {
-    "host": "db.clrmhud2wsmi.us-east-1.rds.amazonaws.com",
+    "host": "databaseterm.clrmhud2wsmi.us-east-1.rds.amazonaws.com",
     "port": "5432",
-    "database": "db",
+    "database": "databaseterm",
     "user": "postgrescharles",
     "password": "qwertyqwerty"
   }
