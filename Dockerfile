@@ -9,4 +9,4 @@ RUN apt-get update \
 COPY . .
 # ADD src/script.py /application/
 RUN pip install -r /application/requirements.txt
-CMD [ "python", "role_menu.py" ]
+CMD [ "python3", "role_menu.py" ]
