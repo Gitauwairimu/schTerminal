@@ -21,3 +21,4 @@ spec:
         envFrom:
         - secretRef:
             name: db-secret  # Mount the db-secret into environment variables
+      restartPolicy: Always
