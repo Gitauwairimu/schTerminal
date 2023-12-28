@@ -22,3 +22,8 @@ spec:
         - secretRef:
             name: db-secret  # Mount the db-secret into environment variables
       restartPolicy: Always
+
+
+
+# kubectl exec -it my-app-deployment-76789d8466-bxkrc -- bash
+# python role_menu.py
