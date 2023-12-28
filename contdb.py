@@ -28,7 +28,7 @@ def connect_to_database():
     "password": "os.getenv('DB_PASSWORD')"
   }
 
-  host = "databaseterm.clrmhud2wsmi.us-east-1.rds.amazonaws.com"
+  host = "database-1.clrmhud2wsmi.us-east-1.rds.amazonaws.com"
   port = 5432
 
 
